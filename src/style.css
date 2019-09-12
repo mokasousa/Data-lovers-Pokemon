@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+}
+
+
+.banner{
+    width: 100%;
+    height: 150px;
+}
+
+.principal{
+    background: url(planodefundo.jpeg) no-repeat;
+    background-attachment: fixed;
+}
+
+.cardPokemon{
+    background-color: white;
+    width:12%;
+    height: 250px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 4%;
+    margin:2%;
+    padding: 2% 0 0 0;
+}
+
+.navigation{
+    background: url(tema.jpeg) no-repeat; 
+    width: 100%;
+    height: 150px;   
+}
+
+.rodape{
+    text-align: center;
+    background-color: aquamarine;
+    margin-top: 0;
+}
+
+ul.menu{
+    list-style-type: none;
+}
