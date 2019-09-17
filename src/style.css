@@ -1,41 +1,178 @@
 *{
-    margin: 0;
+  margin: 0;
+  padding: 0;
 }
 
-
-.banner{
-    width: 100%;
-    height: 150px;
-}
-
-.principal{
-    background: url(planodefundo.jpeg) no-repeat;
-    background-attachment: fixed;
-}
-
-.cardPokemon{
-    background-color: white;
-    width:12%;
-    height: 250px;
-    display: inline-block;
-    text-align: center;
-    border-radius: 4%;
-    margin:2%;
-    padding: 2% 0 0 0;
+body, html {
+  font-family: serif;
+  color: #2B2C28;
+  width: 100%;
+  height: 100%;
+  background: url(background-forest.jpeg) no-repeat;
+  background-attachment: fixed;
+  background-size: 1350px 700px;
+  position:relative;
 }
 
 .navigation{
-    background: url(tema.jpeg) no-repeat; 
-    width: 100%;
-    height: 150px;   
+  background: linear-gradient(0turn, #A2C75D, #2F8C7D);
+  width: 100%;
+  height: 15%;
+  text-align:center;
 }
 
-.rodape{
-    text-align: center;
-    background-color: aquamarine;
-    margin-top: 0;
+.navigation img{
+  width:150px;
+  margin:0.5em;
+  vertical-align: top;
 }
 
-ul.menu{
-    list-style-type: none;
+.navigation ul{
+  display: block;
+  list-style: none;
+  text-align: right;
+}
+
+.navigation li{
+  margin: 0.5em;
+  padding: 0 0.5em;
+  line-height: 30px;
+  display:inline-block;
+  color:#2F8C7D;
+  vertical-align: top;
+  display:inline-block;
+}
+
+.ribbon-wrapper{
+  position: relative;
+  z-index: 1;
+  float:center;
+}
+
+.ribbon {
+  min-width:150px;
+  width: 25%;
+  position: relative;
+  background: #DD545F;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 0.5em;
+  margin: auto;
+  vertical-align: bottom;
+}
+
+.ribbon:after,
+.ribbon:before {
+  vertical-align:middle;
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: -0.5em;
+  border: 1em solid #DD545F;
+  z-index: -1;
+}
+
+.ribbon:before {
+left: -1.5em;
+border-right-width: 1.5em;
+border-left-color: transparent
+}
+
+.ribbon:after {
+right: -1.5em;
+border-left-width: 1.5em;
+border-right-color: transparent
+}
+
+.ribbon .ribbon-inner:after,
+.ribbon .ribbon-inner:before {
+content: "";
+position: absolute;
+display: block;
+border-style: solid;
+border-color: #b23232 transparent transparent;
+bottom: -0.5em
+}
+
+.ribbon .ribbon-inner:before {
+left: 0;
+border-width: 0.5em 0 0 1em
+}
+
+.ribbon .ribbon-inner:after {
+right: 0;
+border-width: 0.5em 1em 0 0
+}
+
+
+.inputs{
+  padding:0.5em;
+  text-align:center;
+}
+
+.inputs input{
+  width:25%;
+  margin:1em 0;
+  line-height:25px;
+  border:none;
+  border-radius:4px;
+  background-color: #D4E6B5;
+  padding:0 0.5em;
+}
+.inputs button{
+  width:auto;
+  border:none;
+  border-radius:4px;
+  background-color: #FADF63;
+  padding: 0.3em 0.5em;
+}
+
+.inputs select{
+  width:25%;
+  margin:1em 0;
+  line-height:25px;
+  border: none;
+  border-radius:4px;
+  background-color: #D4E6B5;
+  padding: 0.2em;
+}
+.inputs option{
+  line-height:25px;
+  background-color: #D4E6B5;
+  padding:0 0.5em;
+}
+
+.cards{
+  text-align: center;
+  margin:0;
+  padding:0.5em;
+}
+
+.cardPokemon{
+  background-color: #D4E6B5;
+  width: 150px;
+  height: 220px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 8px;
+  margin: 0.5em;
+  padding: 0.5em;
+  box-shadow: 4px 8px 10px #2B2C28;
+}
+
+.cardPokemon p{
+  margin:2em 0 0 0;
+  padding:0 0.5em;
+  text-align:left;
+}
+
+.footer-section{
+  text-align: center;
+  background-color: #FADF63;
+  margin: 0;
+  padding:0.5em;
+}
+
+.footer-section img{
+  width:1em;
 }

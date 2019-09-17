@@ -2,40 +2,46 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Data Lovers</title>
+    <title>Data Lovers - Pokémon Go</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="navigation">
-      <nav>
-        <ul class="nemu">
-          <li>Home</li>
-          <li>Saiba mais</li>
+    <header>
+      <nav class="navigation">
+        <section class="ribbon-wrapper">
+          <img src="pokemon-go-logo.png">
+          <h3 class="ribbon">
+            <b class="ribbon-inner">Lista de Pokémon</b>
+          </h3>
+        </section>
+        <ul>
+          <li>HOME</li>
+          <li>INFO</li>
         </ul>
+
       </nav>
     </header>
-    <main class="principal">
+    <main class="main-section">
       <section class="inputs">
         <form>
-          <label></label>
-          <input placeholder="Digite o nome">
-          <button>Enviar</button>
+          <input placeholder="Nome do Pokémon">
+          <button>Procurar</button>
         </form>
         <select>
           <option value="lowest-num">001-150</option>
           <option value="highest-num">150-001</option>
           <option value="a">A-Z</option>
           <option value="z">Z-A</option>
-          <option value="weight">Do menor Peso ao maior peso</option>
+          <option value="lightest">Do menor Peso ao maior peso</option>
           <option value="rarest">Do mais comum ou mais raro</option>
         </select>
-      </section class="cards">
-      <section id="list">
+      <section class="cards">
+        <section id="list">
+        </section>
       </section>
     </main>
-    <footer class="rodape">
-      <p>pokemon@pokemon.com.br</p>
-      <a href="#">Siga-nos aqui</a>
+    <footer class="footer-section">
+      <p>Criado por: Jéssica Nascimento e Mônica Sousa <a href="#"><img src="github-logo.png"></a></p>
     </footer>
     <!-- <div id="root"></div>-->
     <!-- <script src="data/injuries/injuries.js"></script> -->
@@ -49,4 +55,3 @@
     <script src="main.js"></script>
   </body>
 </html>
-
