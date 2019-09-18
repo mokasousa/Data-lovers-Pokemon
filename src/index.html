@@ -24,10 +24,10 @@
     <main class="main-section">
       <section class="inputs">
         <form>
-          <input placeholder="Nome do Pokémon">
-          <button>Procurar</button>
+          <input placeholder="Nome do Pokémon" id="input-search">
+          <button id="input-search-btn">Procurar</button>
         </form>
-        <select>
+        <select id="new-order">
           <option value="lowest-num">001-150</option>
           <option value="highest-num">150-001</option>
           <option value="a">A-Z</option>
@@ -35,6 +35,10 @@
           <option value="lightest">Do menor Peso ao maior peso</option>
           <option value="rarest">Do mais comum ou mais raro</option>
         </select>
+        <select id="search">
+        </select>
+        <div id="search-button"></div>
+      </section>
       <section class="cards">
         <section id="list">
         </section>
