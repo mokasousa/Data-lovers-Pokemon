@@ -1,102 +1,111 @@
-let allPokemons = POKEMON.pokemon;
+const data = POKEMON.pokemon;
+//const filterType = document.getElementById('search');
+//const printType = document.getElementById('type-list');
+//const sectionCards = document.getElementById("list");
 
 document.addEventListener("DOMContentLoaded", () => {
-  printPokemons(allPokemons);
+  const pokeTypes = getTypes(data);
+  //constrói a caixa de seleção para os tipos
+  displayTypeOptions(pokeTypes);
+  printAllPokemons(data);
 });
 
-let select = document.getElementById("new-order");
-select.addEventListener('input', function (event) {
+document.getElementById("new-order").addEventListener('input', function (event) {
   if (event.target.value === "lowest-num") {
-      let allPokesLowest = allPokemons.sort(function(a, b) {return a.num.localeCompare(b.num)});
-      printPokemons(allPokesLowest);
+      let allPokesLowest = data.sort(function(a, b) {return a.num.localeCompare(b.num)});
+      printAllPokemons(allPokesLowest);
   } else if (event.target.value === "highest-num") {
-      let allPokesHighest = allPokemons.sort(function(a, b) {return b.num.localeCompare(a.num)});
-      printPokemons(allPokesHighest);
+      let allPokesHighest = data.sort(function(a, b) {return b.num.localeCompare(a.num)});
+      printAllPokemons(allPokesHighest);
   } else if (event.target.value === "a") {
-      let allPokesAZ = allPokemons.sort(function(a, b) {return a.name.localeCompare(b.name)});
-      printPokemons(allPokesAZ);
+      let allPokesAZ = data.name.sort(function(a, b) {return a.name.localeCompare(b.name)});
+      printAllPokemons(allPokesAZ);
   } else if (event.target.value === "z") {
-      let allPokesZA = allPokemons.sort(function(a, b) {return b.name.localeCompare(a.name)});
-      printPokemons(allPokesZA);
+      let allPokesZA = data.sort(function(a, b) {return b.name.localeCompare(a.name)});
+      printAllPokemons(allPokesZA);
   };
 }, false);
+/*
+document.getElementById('search').addEventListener("change", () => {
+  printByType(filterDataByType(data, document.getElementById('search').value));
+});*/
 
-let btn = document.getElementById("input-search-btn");
-btn.addEventListener("click", function (event) {
+
+document.getElementById("input-search-btn").addEventListener("click", function (event) {
   event.preventDefault();
   let inputName = document.getElementById("input-search").value;
-  let found = allPokemons.find(el => el.name === inputName);
+  let found = data.find(el => el.name === inputName);
   if (found) {
-    console.log(found);
     let sectionCards = document.getElementById("list");
     sectionCards.innerHTML = "";
-    let newCard = document.createElement("article");
-    newCard.setAttribute("class", "cardPokemon");
-    newCard.innerHTML = "<img src=\"" + found.img + "\" ><br>";
-    newCard.innerHTML +=  "<p>#" + found.num + "<br>" + found.name + "<br>" + found.type.map(el => el).join(", ") + "</p>";
-    sectionCards.appendChild(newCard);
+    sectionCards.innerHTML +=
+      `<article class= "cardPokemon">
+       <img src="${found.img}" />
+       <h4>${found.name}</h4>
+       <p> ${found.num}</p>
+       <p>Tipo: ${found.type.map(type => `${type}`).join(", ")}</p>
+       </article>`
+
   };
 }, false);
 
-function printPokemons(allPokemons) {
-  let sectionCards = document.getElementById("list");
-  sectionCards.innerHTML = "";
-  allPokemons.forEach((item) => {
-      let num = item["num"];
-      let name = item["name"];
-      let img = item["img"];
-      let type = item["type"];
-      let allTypes = "";
-      type.forEach((eachType) => {
-        allTypes += " "+eachType;
-      });
-      let newCard = document.createElement("article");
-      newCard.setAttribute("class", "cardPokemon");
-      newCard.innerHTML = "<img src=\"" + img + "\" ><br>";
-      newCard.innerHTML +=  "<p>#" + num + "<br>" + name + "<br>" +allTypes + "</p>";
-      sectionCards.appendChild(newCard);
-  });
-};
+
+
+document.getElementById('search').addEventListener("change", () => {
+  printByType(/*window.*/filterDataByType(data, document.getElementById('search').value));
 });
 
+/*window.onload = () => {
+    getTypes(data);
+};*/
 
-const data = POKEMON.pokemon;
-const meuFiltro = document.getElementById('search');
-const mostraPokemonDiv = document.getElementById('search-button');
-
-meuFiltro.addEventListener("change", () => selecionados(app.filterData(data, meuFiltro.value)));
-
-window.onload = () => {
-    carregaMenuTipos(data);
+//Cria um array contendo todos os tipos de pokes existentes em data
+function getTypes(allTypes) {
+  const poketypes = [];
+  allTypes.map(poke => poke.type.map(type => {
+    if (!poketypes.includes(type)){
+        poketypes.push(type);
+    } else {
+    return false;
+    }
+  }));
+  return poketypes;
 };
 
-function carregaMenuTipos(data) {
-    const poketypes = [];
-    data.map(poke => poke.type.map(type => {
-        if (!poketypes.includes(type)){
-            poketypes.push(type);
-        } else {
-        return false;
-        }
-        
-    }))
-
-meuFiltro.innerHTML = "";
-meuFiltro.innerHTML = `<option value="none"> Selecione Filtro </option>`;
-meuFiltro.innerHTML += poketypes.map(type => `<option value= "${type}"> ${type}</option>`).join("");
-
-}
-
-
-
-function selecionados(obj){
-    mostraPokemonDiv.innerHTML = "";
-    obj.forEach(poke => {
-        mostraPokemonDiv.innerHTML += `
-        <div class= "card">
-        <h4>${poke.name}</h4>
-        <img src="${poke.img}" />
-        <p>Tipo: ${poke.type.map(type => `${type}`).join(", ")}</p>
-        </div>`
+//Printa na tela apenas os pokes filtrados pelo tipo
+function printByType(filtered) {
+  document.getElementById('type-list').innerHTML = "";
+  filtered.forEach(poke => {
+    document.getElementById('type-list').innerHTML += `
+      <article class= "cardPokemon">
+      <img src="${poke.img}" />
+      <h4>${poke.name}</h4>
+      <p> ${poke.num}</p>
+      <p>Tipo: ${poke.type.map(type => `${type}`).join(", ")}</p>
+      </article>`
     });
-}
+};
+
+//printa na tela todos os pokemons de data
+function printAllPokemons (allPokemons){
+  document.getElementById("list").innerHTML = "";
+  allPokemons.forEach(poke => {
+      document.getElementById("list").innerHTML += `
+      <article class= "cardPokemon">
+      <img src="${poke.img}" />
+      <h4>${poke.name}</h4>
+      <p> ${poke.num}</p>
+      <p>Tipo: ${poke.type.map(type => `${type}`).join(", ")}</p>
+      </article>`
+  });
+};
+
+function filterDataByType(data, optionSelected) {
+  return data.filter(item => item.type.includes(optionSelected));
+};
+
+function displayTypeOptions(allTypes) {
+  document.getElementById('search').innerHTML = "";
+  document.getElementById('search').innerHTML = `<option value="none">Filtrar Por Tipo</option>`;
+  document.getElementById('search').innerHTML += allTypes.map(type => `<option value= "${type}"> ${type}</option>`).join("");
+};
