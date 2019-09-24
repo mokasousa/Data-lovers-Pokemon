@@ -1,1 +1,0 @@
-const data = POKEMON.pokemon;

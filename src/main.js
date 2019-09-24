@@ -42,6 +42,9 @@ filterType.addEventListener("change", () => {
 //FAZER: EVENTLISTENER PARA O SELECT POR OVO
 //FAZER: EVENTLISTENER PARA O SELECT POR CANDY_COUNT
 
+//FAZER: EVENTLISTENER PARA O ÍCONE HOME
+//FAZER: EVENT LISTENER PARA O ÍCONE INFO
+
 //-------------------------------Functions DOM--------------------------------//
 //Printa na <section class="cards"> os cards de todos os Pokémons que correspondem
 //ao tipo selecionado
@@ -77,24 +80,22 @@ function displayTypeOptions(allTypes) {
 //FAZER: CRIAR OPTIONS PARA O SELECT POR OVO
 //FAZER: CRIAR OPTIONS PARA SELECT POR CANDY_COUNT
 
-//--------------------------Ao clicar no Pokémon------------------------------//
-//Eventlistener para o click na img do pokémon
+
+//-----------------------Event listener click no Pokémon----------------------//
+//Eventlistener para o click na imagem do pokémon
 sectionCards.addEventListener( 'click', function( e ) {
 
-  //se o click for na imagem
+  //se o click for na imagem do pokémon
   if (e.target.nodeName == 'IMG') {
 
     //encontra em data o objeto correspondente ao pokémon clicado
     let poke = findPokemon(data, e.target.id)
 
-    //console.log(getEvolutions(poke.next_evolution));
-    //console.log(getEvolutions(poke.prev_evolution));
-
-    //printa na <main> novo HTML
+    //printa na <main> info do pokémon clicado + gráficos
     printStats(poke);
 
 
-    //Chart 1
+    //Chart 1...............................................................
     var ctxHeight = document.getElementById('heightChart').getContext('2d');
     var chart = new Chart(ctxHeight, {
         type: 'bar',
@@ -110,7 +111,7 @@ sectionCards.addEventListener( 'click', function( e ) {
         //options: {}
     });
 
-    //Chart 2
+    //Chart 2...............................................................
     var ctxWeight = document.getElementById('weightChart').getContext('2d');
     var chart = new Chart(ctxWeight, {
 
@@ -128,26 +129,27 @@ sectionCards.addEventListener( 'click', function( e ) {
         //options: {}
     });
 
-    //Chart 3
-    var ctxEgg = document.getElementById('rarityChart').getContext('2d');
-    var chart = new Chart(ctxEgg, {
+    //Chart 3............................................................
+    var ctxSpawn = document.getElementById('rarityChart').getContext('2d');
+    var chart = new Chart(ctxSpawn, {
 
         type: 'line',
 
         data: {
-            labels: getName(data),
+            labels: //getName(data),
             datasets: [{
                 label: 'Probabilidade de encontrar Pokémon em %',
-                //backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: '#DD545F',
-                data: getSpawnChance(data)
+                data: //getSpawnChance(data)
             }]
         },
         //options: {}
     });
   };
-}, false);
+}, false);//fecha event listener click img pokémon
 
+//-----------------------Funções para pág. de stats---------------------------//
+//printa na <main> info do pokémon clicado + gráficos
 function printStats(poke) {
   document.getElementById("main-stats").innerHTML = `
   <section class= "poke-data">
@@ -174,6 +176,7 @@ function printStats(poke) {
   <canvas class="charts" id="rarityChart"></canvas>`
 };
 
+//função para mostrar o número de candy apenas se hover um número válido
 function showCandy(el){
   if(typeof el.candy_count !== "undefined"){
     return el.candy_count;
@@ -182,42 +185,24 @@ function showCandy(el){
   };
 };
 
-function getEvolutions(dat) {
-  //let evols = [];
-  let evols = dat.map(el => `${el.name}`).join(", ");
-  return evols;
-};
-//console.log(getEvolutions(data[0]))
+//FAZER!! PRINTAR AS EVOLUÇÕES DOS POKEMONS CONSIDERANDO QUE ALGUNS POSSUEM
+//PREV_EVOLUTION, OUTROS NEXT_EVOLUTION E OUTROS OS DOIS.
+// function getEvolutions(dat) {
+//   //let evols = [];
+//   let evols = dat.map(el => `${el.name}`).join(", ");
+//   return evols;
+// };
+// //console.log(getEvolutions(data[0]))
 
 
-function getHeightFreq(data){
-  const heightAll = [];
-  data.map(poke => heightAll.push(poke.height));
-  heightAll.sort((a,b) => a.localeCompare(b));
-  return freq(heightAll);
-};
-
+//printa na caixa de ovos as imagens dos pokes correspondentes
 function getEggPokes(data, km){
   let a = data.filter(item => item.egg.includes(km));
   let b = a.map(poke => `<img src="${poke.img}">`).join("");
   return b;
 };
 
-
-function getSpawnChance(data){
-  const spwanChanceAll = [];
-  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
-  dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
-  return spwanChanceAll;
-};
-
-function getName(data){
-  const nameAll = [];
-  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
-  dataSort.map(poke => nameAll.push(poke.name));
-  return nameAll;
-};
-
+//FAZER: PRINTAR OS CANDYS IGUAL OS EGGS
 // function getCandyPokes(data){
 //   // const candyAll = [];
 //   // data.map(poke => candyAll.push(poke.candy_count));
@@ -227,9 +212,26 @@ function getName(data){
 //   // return b;
 //   return a;
 // };
-
 //console.log(getCandyPokes(data));
 
+//Contabiliza o números de vezes que cada item que aparece na array,
+//retorna objeto onde as keys são os itens da array e os values é a quantidade
+function freq(arr) {
+  return arr.reduce((counter, item) => {
+    counter[item] = counter.hasOwnProperty(item) ? counter[item] + 1 : 1;
+    return counter;
+  }, {});
+};
+
+//calcula a frequencia das alturas
+function getHeightFreq(data){
+  const heightAll = [];
+  data.map(poke => heightAll.push(poke.height));
+  heightAll.sort((a,b) => a.localeCompare(b));
+  return freq(heightAll);
+};
+
+//calcula a frequencia dos pesos
 function getWeightFreq(data){
   const weightAll = [];
   data.map(poke => {
@@ -249,11 +251,4 @@ function getWeightFreq(data){
   });
   weightAll.sort((a,b) => a.localeCompare(b));
   return freq(weightAll);
-};
-
-function freq(arr) {
-  return arr.reduce((counter, item) => {
-    counter[item] = counter.hasOwnProperty(item) ? counter[item] + 1 : 1;
-    return counter;
-  }, {});
 };
