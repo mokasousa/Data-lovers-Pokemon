@@ -175,4 +175,33 @@ border-width: 0.5em 1em 0 0
 
 .footer-section img{
   width:1em;
+  position: absolute;
+}
+
+.poke-data{
+  background:linear-gradient(to bottom, #A7E0CF, #d4e6b5);
+  width: 250px;
+  height: 300px;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
+.egg-data{
+  background:linear-gradient(to bottom, #A7E0CF, #d4e6b5);
+  width: 300px;
+  height: 280px;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
+.egg-data img{
+  width: 1.5em;
+}
+
+.charts{
+  background:linear-gradient(to bottom, #A7E0CF, #d4e6b5);
+  width: 300px;
+  height: 280px;
+  margin: 0.5em;
+  padding: 0.5em;
 }

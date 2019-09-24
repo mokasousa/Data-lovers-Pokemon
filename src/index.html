@@ -22,21 +22,21 @@
 
       </nav>
     </header>
-    <main class="main-section">
+    <main class="main-section" id="main-stats">
       <section class="inputs">
         <form>
           <input placeholder="Nome do Pokémon" id="input-search">
           <button id="input-search-btn">Procurar</button>
         </form>
-        <select id="search">
-        </select>
+        <select id="select-type"></select>
+        <select id="select-egg"></select>
+        <select id="select-candy-count"></select>
         <select id="new-order">
+          <option value="none">Ordenar por</option>
           <option data="asc" value="num">001-150</option>
           <option data="desc" value="num">150-001</option>
           <option data="asc" value="name">A-Z</option>
           <option data="desc" value="name">Z-A</option>
-          <!--<option value="lightest">Do menor Peso ao maior peso</option>
-          <option value="rarest">Do mais comum ou mais raro</option>-->
         </select>
       </section>
       <section class="cards">
@@ -57,5 +57,6 @@
     <!-- <script src="data/worldbank/worldbank.js"></script> -->
     <script src="data.js"></script>
     <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </body>
 </html>
