@@ -57,12 +57,14 @@ function printFilter(filtered) {
 function printInCards (item) {
   sectionCards.innerHTML += `
     <article class= "cardPokemon">
-    <img src="${item.img}" id="${item.name}">
-    <h4>${item.name}</h4>
-    <p> ${item.num}</p>
-    <p>Tipo: ${item.type.map(type => `${type}`).join(", ")}</p>
+    <img src="#" id="${item.name}">
+    <h5>${item.name}</h5>
+    <p>${item.num}<br>
+    ${item.type.map(type => `${type}`).join(", ")}</p>
     </article>`
 };
+
+// <img src="${item.img}" id="${item.name}">
 
 //Printa na tela inicial os cards de todos os Pokémons
 function printAllPokemons (allPokemons){
@@ -108,25 +110,80 @@ sectionCards.addEventListener( 'click', function( e ) {
                 data: Object.values(getHeightFreq(data))
             }]
         },
-        //options: {}
+        options: {
+          responsive: true,
+          mantainAspectRatio: false,
+          title: {
+            display: true,
+            text: "Frequência das Alturas"
+          }
+        },
+
+        tooltips: {
+          mode: "index",
+          intersect: true,
+        },
+
+        annotation: {
+          annotations: [{
+            type: "line",
+            mode: "vertical",
+            //scaleID: "x-axis-0",
+            value: app.computeStats(data, "height", " m"),
+            //borderColor: #0089CE,
+            borderWidth: 3,
+            label: {
+              enabled: true,
+              content: "Média dos Alturas"
+            }
+          }]
+        }
     });
 
     //Chart 2...............................................................
     var ctxWeight = document.getElementById('weightChart').getContext('2d');
     var chart = new Chart(ctxWeight, {
 
-        type: 'bar',
+      type: 'bar',
 
-        data: {
-            labels: Object.keys(getWeightFreq(data)),
-            datasets: [{
-                label: 'Freq: Peso',
-                backgroundColor: '#DD545F',
-                data: Object.values(getWeightFreq(data))
-            }]
-        },
+      data: {
+        labels: Object.keys(getWeightFreq(data)),
+        datasets: [{
+            label: 'Peso',
+            backgroundColor: '#DD545F',
+            data: Object.values(getWeightFreq(data))
+        }]
+      },
 
-        //options: {}
+      options: {
+        responsive: true,
+        mantainAspectRatio: false,
+        title: {
+          display: true,
+          text: "Frequência dos Pesos"
+        }
+      },
+
+      tooltips: {
+        mode: "index",
+        intersect: true,
+      },
+
+      annotation: {
+        annotations: [{
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
+          value: app.computeStats(data, "weight", " kg"),
+          //borderColor: #0089CE,
+          borderWidth: 3,
+          label: {
+            enabled: true,
+            content: "Média dos Pesos"
+          }
+        }]
+      }
+
     });
 
     //Chart 3............................................................
@@ -136,11 +193,11 @@ sectionCards.addEventListener( 'click', function( e ) {
         type: 'line',
 
         data: {
-            labels: //getName(data),
+            labels: getName(data),
             datasets: [{
                 label: 'Probabilidade de encontrar Pokémon em %',
                 borderColor: '#DD545F',
-                data: //getSpawnChance(data)
+                data: getSpawnChance(data)
             }]
         },
         //options: {}
@@ -152,7 +209,9 @@ sectionCards.addEventListener( 'click', function( e ) {
 //printa na <main> info do pokémon clicado + gráficos
 function printStats(poke) {
   document.getElementById("main-stats").innerHTML = `
-  <section class= "poke-data">
+  <div class="main">
+  <div class="poke-box">
+  <section class= "poke-data" class="main-2">
   <img src="${poke.img}">
   <h4>Id#${poke.id} ${poke.name}</h4> <br>
   <p>Altura: ${poke.height} <br>
@@ -163,17 +222,23 @@ function printStats(poke) {
   Fraqueza de defesa: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
   </p>
   </section>
-  <section class= "egg-data">
-  <h4>Ovos</h4><br>
+  <section class= "egg-data" class="main-2">
+  <h5>Ovos</h5><br>
   <p>2 KM: ${getEggPokes(data, "2 km")} <br>
   5 KM: ${getEggPokes(data, "5 km")} <br>
-  10 KM: ${getEggPokes(data, "10 km")}
+  10 KM: ${getEggPokes(data, "10 km")}</p>
   </section>
+  </div>
+  <section class="main-2">
   <p>Média de Altura: ${app.computeStats(data, "height", " m")}</p>
   <p>Média de Peso: ${app.computeStats(data, "weight", " kg")}</p>
+  </section>
+  <div class="bars">
   <canvas class="charts" id="heightChart"></canvas>
   <canvas class="charts" id="weightChart"></canvas>
-  <canvas class="charts" id="rarityChart"></canvas>`
+  </div>
+  <canvas class="charts" id="rarityChart"></canvas>
+  </div>`
 };
 
 //função para mostrar o número de candy apenas se hover um número válido
@@ -214,6 +279,24 @@ function getEggPokes(data, km){
 // };
 //console.log(getCandyPokes(data));
 
+////////////////////////////////////////////////////////////////////////////////
+function getSpawnChance(data){
+  const spwanChanceAll = [];
+  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
+  dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
+  return spwanChanceAll;
+};
+////////////////////////////////////////////////////////////////////////////////
+
+//forma uma array de nomes em ordem alfabética
+function getName(data){
+  const nameAll = [];
+  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
+  dataSort.map(poke => nameAll.push(poke.name));
+  return nameAll;
+};
+////////////////////////////////////////////////////////////////////////////////
+
 //Contabiliza o números de vezes que cada item que aparece na array,
 //retorna objeto onde as keys são os itens da array e os values é a quantidade
 function freq(arr) {
@@ -237,15 +320,15 @@ function getWeightFreq(data){
   data.map(poke => {
     let num = +(poke.weight).replace(' kg','');
     if (num <= 5) {
-      num = "0.1 - 5.0 kg (muito leve)"
+      num = "0.1 - 5.0 kg"
     } else if (5 > num || num <= 50){
-      num = "5.1 - 50.0 kg (leve)"
+      num = "5.1 - 50.0 kg"
     } else if (50 > num || num <= 200){
-      num = "50.1 - 100 kg (médio)"
+      num = "50.1 - 100 kg"
     } else if (200 > num || num <= 400){
-      num = "100.1 - 300.0 kg (pesado)"
+      num = "100.1 - 300.0 kg"
     } else if (400 > num || num <= 999){
-      num = "300.1 - 999.0 kg (muito pesado)"
+      num = "300.1 - 999.0 kg"
     }
     weightAll.push(num);
   });

@@ -33,7 +33,6 @@ function getTypes(data) {
 };
 
 
-
 //----------------------------------------------------------------------------//
 //FAZER: UMA FUNÇÃO GETEGGS E GETCANDYCOUNTS EEE VER SE DÁ PRA JUNTAR TUDO EM 1
 //FUNÇÃO(JUNTO COM GET TYPES)
