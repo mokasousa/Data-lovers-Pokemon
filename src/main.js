@@ -8,7 +8,7 @@ const btnInput = document.getElementById("input-search-btn");
 const inputName = document.getElementById("input-search");
 //-----------------------------Event Listeners--------------------------------//
 
-console.log(app.getWeightFreq(data))
+console.log(app.getWeightFreq(data));
 //Eventlistener para printar os cards na tela inicial e as caixas select para os filtros
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   displayTypeOptions(app.getTypes(data));
   displayTypeEggs(app.getTypesEgg(data));
   displayTypeCandy(app.getTypesCandy(data));
-
 
   //FAZER: CRIAR SELECT PARA OVO E CANDY_COUNT
 
@@ -28,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // TRAVAR O USUARIO QUANDO NÃO ESCREVE NADA
 btnInput.addEventListener("click", function (event) {
   event.preventDefault();
-    sectionCards.innerHTML = "";
-    printInCards(app.findPokemon(data, inputName.value));
+  sectionCards.innerHTML = "";
+  printInCards(app.findPokemon(data, inputName.value));
   //};
 }, false);
 
@@ -37,7 +36,7 @@ btnInput.addEventListener("click", function (event) {
 selectionToSort.addEventListener("change", () => {
 
   //guarda o valor de <option data="..."> DÁ PRA FAZER DE OUTRA FORMA?
-  let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute('data');
+  let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute("data");
 
   printAllPokemons(app.sortPokemons(data, selectionToSort.value, targetData));
 });
@@ -50,7 +49,6 @@ filterType.addEventListener("change", () => {
 filterEgg.addEventListener("change", () => {
   printFilter(app.filterData(data, filterEgg.value, "egg"));
 });
-
 
 filterCandy.addEventListener("change", () => {
   printFilter(app.filterData(data, filterCandy.value, "candy_count"));
@@ -75,13 +73,11 @@ function printInCards (item) {
     <h5>${item.name}</h5>
     <p>${item.num}<br>
     ${item.type.map(type => `${type}`).join(", ")}</p>
-    </article>`
+    </article>`;
 };
 
-// <img src="${item.img}" id="${item.name}">
-
 //Printa na tela inicial os cards de todos os Pokémons
-function printAllPokemons (data){
+function printAllPokemons (data) {
   sectionCards.innerHTML = "";
   data.forEach(poke => printInCards(poke));
 };
@@ -89,90 +85,89 @@ function printAllPokemons (data){
 //Cria options para os <select id="select-type", id= "elect-candy-count" e id="select-egg">
 function displayTypeOptions(allTypes) {
   filterType.innerHTML = "";
-  filterType.innerHTML = `<option value="none">Filtrar Por Tipo</option>`;
+  filterType.innerHTML = "<option value=\"none\">Filtrar Por Tipo</option>";
   filterType.innerHTML += allTypes.map(type => `<option value= "${type}"> ${type}</option>`).join("");
 };
 
 function displayTypeEggs(egg) {
   filterEgg.innerHTML = "";
-  filterEgg.innerHTML = `<option value="none">Filtrar Por Ovos</option>`;
+  filterEgg.innerHTML = "<option value=\"none\">Filtrar Por Ovos</option>";
   filterEgg.innerHTML += egg.map(egg => `<option value= "${egg}"> ${egg}</option>`).join("");
 };
 function displayTypeCandy(candy) {
   filterCandy.innerHTML = "";
-  filterCandy.innerHTML = `<option value="none">Filtrar Por Doces</option>`;
+  filterCandy.innerHTML = "<option value=\"none\">Filtrar Por Doces</option>";
   filterCandy.innerHTML += candy.map(candy => `<option value= "${candy}"> ${candy}</option>`).join("");
 };
 
 //-----------------------Event listener click no Pokémon----------------------//
 //Eventlistener para o click na imagem do pokémon
-sectionCards.addEventListener( 'click', function( e ) {
+sectionCards.addEventListener( "click", function( e ) {
 
   //se o click for na imagem do pokémon
-  if (e.target.nodeName == 'IMG') {
+  if (e.target.nodeName == "IMG") {
 
     //encontra em data o objeto correspondente ao pokémon clicado
-    let poke = findPokemon(data, e.target.id)
+    let poke = findPokemon(data, e.target.id);
 
     //printa na <main> info do pokémon clicado + gráficos
     printStats(poke);
 
-
     //Chart 1...............................................................
-    var ctxHeight = document.getElementById('heightChart').getContext('2d');
+    var ctxHeight = document.getElementById("heightChart").getContext("2d");
     var chart = new Chart(ctxHeight, {
-        type: 'bar',
+      type: "bar",
 
-        data: {
-            labels: Object.keys(app.getHeightFreq(data)),
-            datasets: [{
-                label: 'Freq: Altura',
-                backgroundColor: '#DD545F',
-                data: Object.values(app.getHeightFreq(data))
-            }]
-        },
-        options: {
-          responsive: true,
-          mantainAspectRatio: false,
-          title: {
-            display: true,
-            text: "Frequência das Alturas"
-          }
-        },
-
-        tooltips: {
-          mode: "index",
-          intersect: true,
-        },
-
-        annotation: {
-          annotations: [{
-            type: "line",
-            mode: "vertical",
-            //scaleID: "x-axis-0",
-            value: app.computeStats(data, "height", " m"),
-            //borderColor: #0089CE,
-            borderWidth: 3,
-            label: {
-              enabled: true,
-              content: "Média dos Alturas"
-            }
-          }]
+      data: {
+        labels: Object.keys(app.getHeightFreq(data)),
+        datasets: [{
+          label: "Freq: Altura",
+          backgroundColor: "#DD545F",
+          data: Object.values(app.getHeightFreq(data))
+        }]
+      },
+      options: {
+        responsive: true,
+        mantainAspectRatio: false,
+        title: {
+          display: true,
+          text: "Frequência das Alturas"
         }
+      },
+
+      tooltips: {
+        mode: "index",
+        intersect: true,
+      },
+
+      annotation: {
+        annotations: [{
+          type: "line",
+          mode: "vertical",
+          //scaleID: "x-axis-0",
+          value: app.computeStats(data, "height", " m"),
+          //borderColor: #0089CE,
+          borderWidth: 3,
+          label: {
+            enabled: true,
+            content: "Média dos Alturas"
+          }
+        }]
+      }
     });
 
     //Chart 2...............................................................
-    var ctxWeight = document.getElementById('weightChart').getContext('2d');
+    var ctxWeight = document.getElementById("weightChart").getContext("2d");
     var chart = new Chart(ctxWeight, {
 
-      type: 'bar',
+      type: "bar",
 
       data: {
         labels: Object.keys(app.getWeightFreq(data)),
         datasets: [{
-            label: 'Peso',
-            backgroundColor: '#DD545F',
-            data: Object.values(app.getWeightFreq(data))
+          label: "Peso",
+          backgroundColor: "#DD545F",
+          data: Object.values(app.getWeightFreq(data))
         }]
       },
 
@@ -208,20 +203,20 @@ sectionCards.addEventListener( 'click', function( e ) {
     });
 
     //Chart 3............................................................
-    var ctxSpawn = document.getElementById('rarityChart').getContext('2d');
+    var ctxSpawn = document.getElementById("rarityChart").getContext("2d");
     var chart = new Chart(ctxSpawn, {
 
-        type: 'line',
+      type: "line",
 
-        data: {
-            labels: getName(data),
-            datasets: [{
-                label: 'Probabilidade de encontrar Pokémon em %',
-                borderColor: '#DD545F',
-                data: getSpawnChance(data)
-            }]
-        },
-        //options: {}
+      data: {
+        labels: getName(data),
+        datasets: [{
+          label: "Probabilidade de encontrar Pokémon em %",
+          borderColor: "#DD545F",
+          data: getSpawnChance(data)
+        }]
+      },
+      //options: {}
     });
   };
 }, false);//fecha event listener click img pokémon
@@ -259,29 +254,22 @@ function printStats(poke) {
   <canvas class="charts" id="weightChart"></canvas>
   </div>
   <canvas class="charts" id="rarityChart"></canvas>
-  </div>`
+  </div>`;
 };
 
-
 //printa na caixa de ovos as imagens dos pokes correspondentes
-function getEggPokes(data, km){
+function getEggPokes(data, km) {
   let a = data.filter(item => item.egg.includes(km));
   let b = a.map(poke => `<img src="${poke.img}">`).join("");
   return b;
 };
 
+/*
+//printa na caixa de ovos as imagens dos pokes correspondentes
+function getCandyPokes(data, num){
+  let a = data.filter(item => item.candy_count.includes(num));
+  let b = a.map(poke => `<img src="${poke.img}">`).join("");
+  return b;
+};*/
 
-function getSpawnChance(data){
-  const spwanChanceAll = [];
-  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
-  dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
-  return spwanChanceAll;
-};
-
-//forma uma array de nomes em ordem alfabética
-function getName(data){
-  const nameAll = [];
-  const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
-  dataSort.map(poke => nameAll.push(poke.name));
-  return nameAll;
-};
+//console.log(getCandyPokes(data, "25"));

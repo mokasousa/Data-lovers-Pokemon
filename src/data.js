@@ -9,16 +9,18 @@ const app = {
   showCandy,
   freq,
   getHeightFreq,
-  getWeightFreq
+  getWeightFreq,
+  getSpawnChance,
+  getName
 };
 
 //1---------------------------------------------------------------------------//
 //filtra os objetos que contém o item escolhido
 function filterData(data, optionSelected, key) {
   //retorna array com objetos filtrados
-return data.filter(item =>
+  return data.filter(item =>
     item[key] ? item[key].toString().includes(optionSelected) : false
-  )
+  );
 };
 //2-OK------------------------------------------------------------------------//
 //mapeia e guarda numa array todos os tipos contidos em data
@@ -27,10 +29,10 @@ function getTypes(data) {
   //1-mapeia o data e 2-mapeia os tipos
   data.map(poke => poke.type.map(type => {
     //se na array poketypes não houver o tipo ainda, dar o push no tipo
-    if (!poketypes.includes(type)){
-        poketypes.push(type);
+    if (!poketypes.includes(type)) {
+      poketypes.push(type);
     } else {
-    return false;
+      return false;
     }
   }));
   return poketypes;
@@ -42,7 +44,7 @@ function getTypesEgg(data) {
   //1-mapeia o data e 2-mapeia os eggs
   data.map(poke => {
     //se na array poketypes não houver o tipo ainda, dar o push no tipo
-    if (!poketypesEgg.includes(poke.egg)){
+    if (!poketypesEgg.includes(poke.egg)) {
       poketypesEgg.push(poke.egg);
     } else {
       return false;
@@ -52,33 +54,31 @@ function getTypesEgg(data) {
   return poketypesEgg;
 };
 
-
 //4-OK------------------------------------------------------------------------//
 function getTypesCandy(data) {
   const poketypesCandy = [];
   //1-mapeia o data e 2-mapeia os tipos
   data.map(poke => {
     //se na array poketypes não houver o tipo ainda, dar o push no tipo
-    if ((!poketypesCandy.includes(poke.candy_count)) && (poke.candy_count)){
-        poketypesCandy.push(poke.candy_count);
+    if ((!poketypesCandy.includes(poke.candy_count)) && (poke.candy_count)) {
+      poketypesCandy.push(poke.candy_count);
     } else {
-    return false;
+      return false;
     }
   });
   return poketypesCandy;
 };
 
-
 //5---------------------------------------------------------------------------//
 //ordena os pokemons de acordo com option value(sortBy) e o option data(sortOrder)
 function sortPokemons(data, sortBy, sortOrder) {
-  if(sortOrder == "asc") {
+  if (sortOrder == "asc") {
     //coloca o item menor antes do item maior
-    data.sort((a,b) => a[sortBy].localeCompare(b[sortBy]));
+    data.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
   };
-  if(sortOrder == "desc") {
+  if (sortOrder == "desc") {
     //coloca o item maior antes do item menor
-    data.sort((a,b) => b[sortBy].localeCompare(a[sortBy]));
+    data.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
   };
   //retorna o array data reordenado
   return data;
@@ -89,7 +89,7 @@ function sortPokemons(data, sortBy, sortOrder) {
 function findPokemon(data, name) {
   let found = data.find(el => el.name === name);
   //checa se o nome foi escrito corretamente e retorna o objeto pokemon correspondente
-  if (found) {return found};
+  if (found) {return found;};
 }
 
 //7---------------------------------------------------------------------------//
@@ -97,9 +97,9 @@ function findPokemon(data, name) {
 function computeStats(data, key, h) {
   let itemAll = [];
   data.map(poke => {
-    let num = +(poke[key]).replace(h,'');
+    let num = +(poke[key]).replace(h, "");
     itemAll.push(num);
-  })
+  });
   let sum = itemAll.reduce((total, next) => {
     return total + next;
   });
@@ -108,8 +108,8 @@ function computeStats(data, key, h) {
 
 //8---------------------------------------------------------------------------//
 //função para mostrar o número de candy apenas se hover um número válido
-function showCandy(el){
-  if(typeof el.candy_count !== "undefined"){
+function showCandy(el) {
+  if (typeof el.candy_count !== "undefined") {
     return el.candy_count;
   } else {
     return "";
@@ -128,32 +128,49 @@ function freq(arr) {
 
 //10---------------------------------------------------------------------------//
 //calcula a frequencia das alturas
-function getHeightFreq(data){
+function getHeightFreq(data) {
   const heightAll = [];
   data.map(poke => heightAll.push(poke.height));
-  heightAll.sort((a,b) => a.localeCompare(b));
+  heightAll.sort((a, b) => a.localeCompare(b));
   return app.freq(heightAll);
 };
 
 //11---------------------------------------------------------------------------//
 //calcula a frequencia dos pesos
-function getWeightFreq(data){
+function getWeightFreq(data) {
   const weightAll = [];
   data.map(poke => {
-    let num = +(poke.weight).replace(' kg','');
+    let num = +(poke.weight).replace(" kg", "");
     if (num <= 5) {
-      num = "0.1 - 5.0 kg"
-    } else if (5 > num || num <= 50){
-      num = "5.1 - 50.0 kg"
-    } else if (50 > num || num <= 200){
-      num = "50.1 - 100 kg"
-    } else if (200 > num || num <= 400){
-      num = "100.1 - 300.0 kg"
-    } else if (400 > num || num <= 999){
-      num = "300.1 - 999.0 kg"
+      num = "0.1 - 5.0 kg";
+    } else if (5 > num || num <= 50) {
+      num = "5.1 - 50.0 kg";
+    } else if (50 > num || num <= 200) {
+      num = "50.1 - 100 kg";
+    } else if (200 > num || num <= 400) {
+      num = "100.1 - 300.0 kg";
+    } else if (400 > num || num <= 999) {
+      num = "300.1 - 999.0 kg";
     }
     weightAll.push(num);
   });
-  weightAll.sort((a,b) => a.localeCompare(b));
+  weightAll.sort((a, b) => a.localeCompare(b));
   return app.freq(weightAll);
+};
+
+//12--------------------------------------------------------------------------//
+function getSpawnChance(data) {
+  const spwanChanceAll = [];
+  const dataSort = data.sort((a, b) => (a.name).localeCompare(b.name));
+  dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
+  return spwanChanceAll;
+};
+
+//13--------------------------------------------------------------------------//
+//forma uma array de nomes em ordem alfabética
+function getName(data) {
+  const nameAll = [];
+  const dataSort = data.sort((a, b) => (a.name).localeCompare(b.name));
+  dataSort.map(poke => nameAll.push(poke.name));
+  return nameAll;
 };
