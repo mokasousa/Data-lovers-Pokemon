@@ -1,34 +1,47 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <title>Data Lovers - Pokémon Go</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="pokemon-go-logo.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   </head>
+
   <body>
-    <header>
-      <nav class="navigation">
-        <section class="ribbon-wrapper">
-          <img src="pokemon-go-logo.png">
-          <h3 class="ribbon">
-            <b class="ribbon-inner">Dados da Pokedéx</b>
-          </h3>
-        </section>
-        <ul>
-          <li>HOME</li>
-          <li>INFO</li>
-          <li>DADOS</li>
+
+    <header class="navigation">
+
+      <nav class= "nav-menu">
+        <ul class="menu">
+          <li><i class="fa fa-home"></i></li>
+          <li><i class="fa fa-info"></i></li>
         </ul>
       </nav>
+
+      <section class="ribbon-wrapper">
+        <img src="pokemon-go-logo.png" class="logo">
+        <h4 class="ribbon">
+          <b class="ribbon-inner">Dados da Pokedéx</b>
+        </h4>
+      </section>
     </header>
+
     <main class="main-section" id="main-stats">
+
       <section class="inputs">
+
         <form>
           <input placeholder="Nome do Pokémon" id="input-search">
           <button id="input-search-btn">Procurar</button>
         </form>
+
         <select id="select-type"></select>
         <select id="select-egg"></select>
         <select id="select-candy-count"></select>
@@ -39,15 +52,25 @@
           <option data="asc" value="name">A-Z</option>
           <option data="desc" value="name">Z-A</option>
         </select>
+
       </section>
-      <section class="cards">
-        <section id="list">
-        </section>
+
+      <section class="cards" id="list">
       </section>
+
     </main>
+
     <footer class="footer-section">
-      <p>Criado por: Jéssica Nascimento e Mônica Sousa <a href="#"><img src="github-logo.png"></a></p>
+      <p>Criado por:
+        <i class="fab fa-linkedin"></i>
+        <i class="fab fa-github"></i>
+        Jéssica Nascimento
+        <i class="fab fa-linkedin"></i>
+        <i class="fab fa-github"></i>
+        Mônica Sousa
+      </p>
     </footer>
+
     <!-- <div id="root"></div>-->
     <!-- <script src="data/injuries/injuries.js"></script> -->
     <!-- <script src="data/lol/lol.js"></script> -->
@@ -59,5 +82,6 @@
     <script src="data.js"></script>
     <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://kit.fontawesome.com/df177f93c1.js" crossorigin="anonymous"></script>
   </body>
 </html>
