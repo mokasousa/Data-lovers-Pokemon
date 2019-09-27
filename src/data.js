@@ -1,6 +1,8 @@
 const app = {
   getTypes,
-  filterDataByType,
+  getTypesEgg,
+  getTypesCandy,
+  filterData,
   sortPokemons,
   findPokemon,
   computeStats
@@ -8,14 +10,12 @@ const app = {
 
 //1---------------------------------------------------------------------------//
 //filtra os objetos que contém o item escolhido
-function filterDataByType(data, optionSelected, key) {
+function filterData(data, optionSelected, key) {
   //retorna array com objetos filtrados
-  return data.filter(item => item[key].includes(optionSelected));
+return data.filter(item => 
+    item[key] ? item[key].toString().includes(optionSelected) : false
+  )
 };
-//FAZER: TRANSFORMAR ESSA FUNÇÃO DE FILTERDATA PARA FUNCIONAR COM TIPO, OVO E CANDY_COUNT
-
-
-
 //2-OK------------------------------------------------------------------------//
 //mapeia e guarda numa array todos os tipos contidos em data
 function getTypes(data) {
@@ -30,6 +30,38 @@ function getTypes(data) {
     }
   }));
   return poketypes;
+};
+
+
+function getTypesEgg(data) {
+  const poketypesEgg = [];
+  //1-mapeia o data e 2-mapeia os tipos
+  data.map(poke => {
+    //se na array poketypes não houver o tipo ainda, dar o push no tipo
+    if (!poketypesEgg.includes(poke.egg)){
+      poketypesEgg.push(poke.egg);
+    } else {
+      return false;
+    }
+
+  });
+  return poketypesEgg;
+};
+
+
+
+function getTypesCandy(data) {
+  const poketypesCandy = [];
+  //1-mapeia o data e 2-mapeia os tipos
+  data.map(poke => {
+    //se na array poketypes não houver o tipo ainda, dar o push no tipo
+    if ((!poketypesCandy.includes(poke.candy_count)) && (poke.candy_count)){       
+        poketypesCandy.push(poke.candy_count);
+    } else {
+    return false;
+    }
+  });
+  return poketypesCandy;
 };
 
 

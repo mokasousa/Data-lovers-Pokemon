@@ -1,5 +1,7 @@
 const data = POKEMON.pokemon;
 const filterType = document.getElementById("select-type");
+const filterEgg = document.getElementById("select-egg");
+const filterCandy = document.getElementById("select-candy-count");
 const sectionCards = document.getElementById("list");
 const selectionToSort = document.getElementById("new-order");
 const btnInput = document.getElementById("input-search-btn");
@@ -12,6 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Cria um select para os tipos com lista de tipos criada por getTypes
   displayTypeOptions(app.getTypes(data));
+  displayTypeEggs(app.getTypesEgg(data));
+  displayTypeCandy(app.getTypesCandy(data));
+  
+
   //FAZER: CRIAR SELECT PARA OVO E CANDY_COUNT
 
   //printa os cards de todos os pokémons
@@ -19,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //Eventlistener para o botão Procurar
+// TRAVAR O USUARIO QUANDO NÃO ESCREVE NADA
 btnInput.addEventListener("click", function (event) {
   event.preventDefault();
     sectionCards.innerHTML = "";
@@ -31,16 +38,25 @@ selectionToSort.addEventListener("change", () => {
 
   //guarda o valor de <option data="..."> DÁ PRA FAZER DE OUTRA FORMA?
   let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute('data');
+
   printAllPokemons(app.sortPokemons(data, selectionToSort.value, targetData));
 });
 
-//Eventlistener para o select por tipo
+//Eventlistener para o select por tipo, ovos e raridade
 filterType.addEventListener("change", () => {
-  printFilter(app.filterDataByType(data, filterType.value, "type"));
+  printFilter(app.filterData(data, filterType.value, "type"));
 });
 
-//FAZER: EVENTLISTENER PARA O SELECT POR OVO
-//FAZER: EVENTLISTENER PARA O SELECT POR CANDY_COUNT
+
+
+filterEgg.addEventListener("change", () => {
+  printFilter(app.filterData(data, filterEgg.value, "egg"));
+});
+
+
+filterCandy.addEventListener("change", () => {
+  printFilter(app.filterData(data, filterCandy.value, "candy_count"));
+});
 
 //FAZER: EVENTLISTENER PARA O ÍCONE HOME
 //FAZER: EVENT LISTENER PARA O ÍCONE INFO
@@ -65,21 +81,28 @@ function printInCards (item) {
 };
 
 //Printa na tela inicial os cards de todos os Pokémons
-function printAllPokemons (allPokemons){
+function printAllPokemons (data){
   sectionCards.innerHTML = "";
   data.forEach(poke => printInCards(poke));
 };
 
-//Cria options para o <select id="select-type">
+//Cria options para os <select id="select-type", id= "elect-candy-count" e id="select-egg">
 function displayTypeOptions(allTypes) {
   filterType.innerHTML = "";
   filterType.innerHTML = `<option value="none">Filtrar Por Tipo</option>`;
   filterType.innerHTML += allTypes.map(type => `<option value= "${type}"> ${type}</option>`).join("");
 };
 
-//FAZER: CRIAR OPTIONS PARA O SELECT POR OVO
-//FAZER: CRIAR OPTIONS PARA SELECT POR CANDY_COUNT
-
+function displayTypeEggs(egg) {
+  filterEgg.innerHTML = "";
+  filterEgg.innerHTML = `<option value="none">Filtrar Por Eggs</option>`;
+  filterEgg.innerHTML += egg.map(egg => `<option value= "${egg}"> ${egg}</option>`).join(""); 
+};
+function displayTypeCandy(candy) {
+  filterCandy.innerHTML = "";
+  filterCandy.innerHTML = `<option value="none">Filtrar Por Raro</option>`;
+  filterCandy.innerHTML += candy.map(candy => `<option value= "${candy}"> ${candy}</option>`).join("");
+};
 
 //-----------------------Event listener click no Pokémon----------------------//
 //Eventlistener para o click na imagem do pokémon
@@ -129,22 +152,22 @@ sectionCards.addEventListener( 'click', function( e ) {
         //options: {}
     });
 
-    //Chart 3............................................................
-    var ctxSpawn = document.getElementById('rarityChart').getContext('2d');
-    var chart = new Chart(ctxSpawn, {
+    // //Chart 3............................................................
+    // var ctxSpawn_chance = document.getElementById('rarityChart').getContext('2d');
+    // var chart = new Chart(ctxSpawn, {
 
-        type: 'line',
+    //     type: 'line',
 
-        data: {
-            labels: //getName(data),
-            datasets: [{
-                label: 'Probabilidade de encontrar Pokémon em %',
-                borderColor: '#DD545F',
-                data: //getSpawnChance(data)
-            }]
-        },
-        //options: {}
-    });
+    //     data: {
+    //         labels: //getName(data),
+    //         datasets: [{
+    //             label: 'Probabilidade de encontrar Pokémon em %',
+    //             borderColor: '#DD545F',
+    //             data: //getSpawnChance(data)
+    //         }]
+    //     },
+    //     //options: {}
+    // });
   };
 }, false);//fecha event listener click img pokémon
 
