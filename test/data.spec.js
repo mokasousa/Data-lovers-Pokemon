@@ -6,7 +6,7 @@ describe("Filter", () => {
     expect(typeof app.filterData).toBe("function");
   });
   it("returns object that contains filter", () => {
-    expect(app.filterData(function1, "jessica", "type")).toEqual({type: ["paloma", "jessica"]});
+    expect(app.filterData(function1, "jessica", "type")).toEqual([{type: ["paloma", "jessica"]}]);
   });
 });
 
@@ -30,23 +30,23 @@ describe("get all eggs", () => {
   });
 });
 
-const function4 = [{candy_count: 25}, {candy_count: 10}, {candy_count: 25}];
+const function4 = [{candyCount: 25}, {candyCount: 10}, {candyCount: 25}];
 describe("get all Candy", () => {
   it("is a function", () => {
     expect(typeof app.getTypesCandy).toBe("function");
   });
   it("returns array of candy", () => {
-    expect(app.getTypesCandy(function4)).toEqual([25, 10]);
+    expect(app.getTypesCandy(function4, "candyCount")).toEqual([25, 10]);
   });
 });
 
-const function5 = [{name: "paloma"} , {name: "jessica"} , {name: "monica"}];
+const function5 = [{name: "paloma"}, {name: "jessica"}, {name: "monica"}];
 describe("ordenate", () => {
   it("is a function", () => {
     expect(typeof app.sortPokemons).toBe("function");
   });
   it("returns array data on a new order", () => {
-    expect(app.sortPokemons(function5, "name", "asc")).toEqual(["jessica", "monica", "paloma"]);
+    expect(app.sortPokemons(function5, "name", "asc")).toEqual([ {"name": "jessica"}, {"name": "monica"}, {"name": "paloma"}]);
   });
 });
 
@@ -56,7 +56,7 @@ describe("ordenate", () => {
     expect(typeof app.sortPokemons).toBe("function");
   });
   it("returns array data on a new order", () => {
-    expect(app.findPokemon(function6, "jessica")).toEqual(["jessica"]);
+    expect(app.findPokemon(function6, "jessica")).toEqual({name: "jessica"});
   });
 });
 
@@ -64,17 +64,19 @@ const function7 = [{height: "1.62 m"}, {height: "1.69 m"}, {height: "1.79 m"}];
 describe("find the mean", () => {
   it("is a function", () => {
     expect(typeof app.computeStats).toBe("function");
+  }); 
   it("returns the mean", () => {
-    expect(app.computeStats(function7, "height", " m")).toEqual(["1.7"]);
+    expect(app.computeStats(function7, "height", " m")).toEqual("1.70");
   });
+});
 
-const function8 = {candy_count: 1.62};
-describe("find the candy_count value excluding undefined", () => {
+const function8 = {candyCount: 1.62};
+describe("find the candyCount value excluding undefined", () => {
   it("is a function", () => {
     expect(typeof app.showCandy).toBe("function");
   });
   it("returns the number", () => {
-    expect(app.showCandy(function8)).toEqual(1.62);
+    expect(app.showCandy(function8, "candyCount")).toEqual(1.62);
   });
 });
 
@@ -84,41 +86,41 @@ describe("Get the array and shows the frequency of each item", () => {
     expect(typeof app.freq).toBe("function");
   });
   it("returns one object with the item and its frequency", () => {
-    expect(app.freq(function9)).toEqual( {3: 3, 4:1, 6:2, 7:1, 10:1, 12:1});
+    expect(app.freq(function9)).toEqual( {3: 3, 4: 1, 6: 2, 7: 1, 10: 1, 12: 1});
   });
 });
 
-const function10 = [{height: "banana"} , {height: "maçã"} , {height: "banana"}];
+const function10 = [{height: "banana"}, {height: "maçã"}, {height: "banana"}];
 describe("Get the objects containing the height and shows the frequency of each item", () => {
   it("is a function", () => {
     expect(typeof app.getHeightFreq).toBe("function");
   });
   it("returns one object with the item and its frequency", () => {
-    expect(app.getHeightFreq(function10)).toEqual({"banana": 2, "maçã":1});
+    expect(app.getHeightFreq(function10)).toEqual({"banana": 2, "maçã": 1});
   });
 });
 
-const function11 = [{weight: "2 kg"} , {weight: "12 kg"} , {weight: "2 kg"}];
+const function11 = [{weight: "2 kg"}, {weight: "12 kg"}, {weight: "2 kg"}];
 describe("Get the objects containing the weight and shows the frequency of each item", () => {
   it("is a function", () => {
     expect(typeof app.getWeightFreq).toBe("function");
   });
   it("returns one object with the item and its frequency", () => {
-    expect(app.getWeightFreq(function11)).toEqual( {"0.1 - 5.0 kg":2, "5.1 - 50.0 kg":1});
+    expect(app.getWeightFreq(function11)).toEqual( {"0.1 - 5.0 kg": 2, "5.1 - 50.0 kg": 1});
   });
 });
 
-const function12 = [{name: "banana", spawn_chance:1}, {name: "amora", spawn_chance:3}, {name: "maçã", spawn_chance:2}];
-describe("Get and sort object names and create an array with spawn_chance", () => {
+const function12 = [{name: "banana", spawnChance: 1}, {name: "amora", spawnChance: 3}, {name: "maçã", spawnChance: 2}];
+describe("Get and sort object names and create an array with spawnChance", () => {
   it("is a function", () => {
     expect(typeof app.getSpawnChance).toBe("function");
   });
-  it("returns array with spawn_chance", () => {
-    expect(app.getSpawnChance(function12)).toEqual([3, 1, 2]);
+  it("returns array with spawnChance", () => {
+    expect(app.getSpawnChance(function12, "spawnChance")).toEqual([3, 1, 2]);
   });
 });
 
-const function13 = [{name: "banana"}, {name: "amora"} , {name: "maçã"}];
+const function13 = [{name: "banana"}, {name: "amora"}, {name: "maçã"}];
 describe("Get and sort object names", () => {
   it("is a function", () => {
     expect(typeof app.getName).toBe("function");

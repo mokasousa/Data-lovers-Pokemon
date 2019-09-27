@@ -1,4 +1,4 @@
-const app = {
+app = {
   getTypes,
   getTypesEgg,
   getTypesCandy,
@@ -55,13 +55,13 @@ function getTypesEgg(data) {
 };
 
 //4-OK------------------------------------------------------------------------//
-function getTypesCandy(data) {
+function getTypesCandy(data, keyName) {
   const poketypesCandy = [];
   //1-mapeia o data e 2-mapeia os tipos
   data.map(poke => {
     //se na array poketypes não houver o tipo ainda, dar o push no tipo
-    if ((!poketypesCandy.includes(poke.candy_count)) && (poke.candy_count)) {
-      poketypesCandy.push(poke.candy_count);
+    if ((!poketypesCandy.includes(poke[keyName])) && (poke[keyName])) {
+      poketypesCandy.push(poke[keyName]);
     } else {
       return false;
     }
@@ -108,9 +108,9 @@ function computeStats(data, key, h) {
 
 //8---------------------------------------------------------------------------//
 //função para mostrar o número de candy apenas se hover um número válido
-function showCandy(el) {
-  if (typeof el.candy_count !== "undefined") {
-    return el.candy_count;
+function showCandy(el, keyName) {
+  if (typeof el[keyName] !== "undefined") {
+    return el[keyName];
   } else {
     return "";
   };
@@ -159,10 +159,10 @@ function getWeightFreq(data) {
 };
 
 //12--------------------------------------------------------------------------//
-function getSpawnChance(data) {
+function getSpawnChance(data, keyName) {
   const spwanChanceAll = [];
   const dataSort = data.sort((a, b) => (a.name).localeCompare(b.name));
-  dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
+  dataSort.map(poke => spwanChanceAll.push(poke[keyName]));
   return spwanChanceAll;
 };
 

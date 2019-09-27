@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //Cria um select para os tipos com lista de tipos criada por getTypes
   displayTypeOptions(app.getTypes(data));
   displayTypeEggs(app.getTypesEgg(data));
-  displayTypeCandy(app.getTypesCandy(data));
+  displayTypeCandy(app.getTypesCandy(data, "candy_count"));
 
   //FAZER: CRIAR SELECT PARA OVO E CANDY_COUNT
 
@@ -213,7 +213,7 @@ sectionCards.addEventListener( "click", function( e ) {
         datasets: [{
           label: "Probabilidade de encontrar Pokémon em %",
           borderColor: "#DD545F",
-          data: getSpawnChance(data)
+          data: getSpawnChance(data, "spawn_chance")
         }]
       },
       //options: {}
@@ -232,7 +232,7 @@ function printStats(poke) {
   <h4>Id#${poke.id} ${poke.name}</h4> <br>
   <p>Altura: ${poke.height} <br>
   Peso: ${poke.weight} <br>
-  Candy: ${app.showCandy(poke)} ${poke.candy}<br>
+  Candy: ${app.showCandy(poke, "candy_count")} ${poke.candy}<br>
   Ovo: ${poke.egg} <br>
   Tipo: ${poke.type.map(type => `${type}`).join(", ")} <br>
   Fraqueza de defesa: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
