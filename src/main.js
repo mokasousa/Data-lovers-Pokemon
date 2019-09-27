@@ -6,9 +6,9 @@ const sectionCards = document.getElementById("list");
 const selectionToSort = document.getElementById("new-order");
 const btnInput = document.getElementById("input-search-btn");
 const inputName = document.getElementById("input-search");
-
 //-----------------------------Event Listeners--------------------------------//
 
+console.log(app.getWeightFreq(data))
 //Eventlistener para printar os cards na tela inicial e as caixas select para os filtros
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -46,8 +46,6 @@ selectionToSort.addEventListener("change", () => {
 filterType.addEventListener("change", () => {
   printFilter(app.filterData(data, filterType.value, "type"));
 });
-
-
 
 filterEgg.addEventListener("change", () => {
   printFilter(app.filterData(data, filterEgg.value, "egg"));
@@ -95,12 +93,12 @@ function displayTypeOptions(allTypes) {
 
 function displayTypeEggs(egg) {
   filterEgg.innerHTML = "";
-  filterEgg.innerHTML = `<option value="none">Filtrar Por Eggs</option>`;
+  filterEgg.innerHTML = `<option value="none">Filtrar Por Ovos</option>`;
   filterEgg.innerHTML += egg.map(egg => `<option value= "${egg}"> ${egg}</option>`).join(""); 
 };
 function displayTypeCandy(candy) {
   filterCandy.innerHTML = "";
-  filterCandy.innerHTML = `<option value="none">Filtrar Por Raro</option>`;
+  filterCandy.innerHTML = `<option value="none">Filtrar Por Doces</option>`;
   filterCandy.innerHTML += candy.map(candy => `<option value= "${candy}"> ${candy}</option>`).join("");
 };
 
@@ -124,11 +122,11 @@ sectionCards.addEventListener( 'click', function( e ) {
         type: 'bar',
 
         data: {
-            labels: Object.keys(getHeightFreq(data)),
+            labels: Object.keys(app.getHeightFreq(data)),
             datasets: [{
                 label: 'Freq: Altura',
                 backgroundColor: '#DD545F',
-                data: Object.values(getHeightFreq(data))
+                data: Object.values(app.getHeightFreq(data))
             }]
         },
         //options: {}
@@ -141,11 +139,11 @@ sectionCards.addEventListener( 'click', function( e ) {
         type: 'bar',
 
         data: {
-            labels: Object.keys(getWeightFreq(data)),
+            labels: Object.keys(app.getWeightFreq(data)),
             datasets: [{
                 label: 'Freq: Peso',
                 backgroundColor: '#DD545F',
-                data: Object.values(getWeightFreq(data))
+                data: Object.values(app.getWeightFreq(data))
             }]
         },
 
@@ -180,7 +178,7 @@ function printStats(poke) {
   <h4>Id#${poke.id} ${poke.name}</h4> <br>
   <p>Altura: ${poke.height} <br>
   Peso: ${poke.weight} <br>
-  Candy: ${showCandy(poke)} ${poke.candy}<br>
+  Candy: ${app.showCandy(poke)} ${poke.candy}<br>
   Ovo: ${poke.egg} <br>
   Tipo: ${poke.type.map(type => `${type}`).join(", ")} <br>
   Fraqueza de defesa: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
@@ -199,24 +197,6 @@ function printStats(poke) {
   <canvas class="charts" id="rarityChart"></canvas>`
 };
 
-//função para mostrar o número de candy apenas se hover um número válido
-function showCandy(el){
-  if(typeof el.candy_count !== "undefined"){
-    return el.candy_count;
-  } else {
-    return "";
-  };
-};
-
-//FAZER!! PRINTAR AS EVOLUÇÕES DOS POKEMONS CONSIDERANDO QUE ALGUNS POSSUEM
-//PREV_EVOLUTION, OUTROS NEXT_EVOLUTION E OUTROS OS DOIS.
-// function getEvolutions(dat) {
-//   //let evols = [];
-//   let evols = dat.map(el => `${el.name}`).join(", ");
-//   return evols;
-// };
-// //console.log(getEvolutions(data[0]))
-
 
 //printa na caixa de ovos as imagens dos pokes correspondentes
 function getEggPokes(data, km){
@@ -225,53 +205,4 @@ function getEggPokes(data, km){
   return b;
 };
 
-//FAZER: PRINTAR OS CANDYS IGUAL OS EGGS
-// function getCandyPokes(data){
-//   // const candyAll = [];
-//   // data.map(poke => candyAll.push(poke.candy_count));
-//   // return freq(candyAll);
-//   let a = data.filter(item => item.candy_count.includes(25));
-//   // let b = a.map(poke => `<img src="${poke.img}">`).join("");
-//   // return b;
-//   return a;
-// };
-//console.log(getCandyPokes(data));
 
-//Contabiliza o números de vezes que cada item que aparece na array,
-//retorna objeto onde as keys são os itens da array e os values é a quantidade
-function freq(arr) {
-  return arr.reduce((counter, item) => {
-    counter[item] = counter.hasOwnProperty(item) ? counter[item] + 1 : 1;
-    return counter;
-  }, {});
-};
-
-//calcula a frequencia das alturas
-function getHeightFreq(data){
-  const heightAll = [];
-  data.map(poke => heightAll.push(poke.height));
-  heightAll.sort((a,b) => a.localeCompare(b));
-  return freq(heightAll);
-};
-
-//calcula a frequencia dos pesos
-function getWeightFreq(data){
-  const weightAll = [];
-  data.map(poke => {
-    let num = +(poke.weight).replace(' kg','');
-    if (num <= 5) {
-      num = "0.1 - 5.0 kg (muito leve)"
-    } else if (5 > num || num <= 50){
-      num = "5.1 - 50.0 kg (leve)"
-    } else if (50 > num || num <= 200){
-      num = "50.1 - 100 kg (médio)"
-    } else if (200 > num || num <= 400){
-      num = "100.1 - 300.0 kg (pesado)"
-    } else if (400 > num || num <= 999){
-      num = "300.1 - 999.0 kg (muito pesado)"
-    }
-    weightAll.push(num);
-  });
-  weightAll.sort((a,b) => a.localeCompare(b));
-  return freq(weightAll);
-};
