@@ -1,17 +1,23 @@
 const data = POKEMON.pokemon;
 const filterType = document.getElementById("select-type");
+const filterEgg = document.getElementById("select-egg");
+const filterCandy = document.getElementById("select-candy-count");
 const sectionCards = document.getElementById("list");
 const selectionToSort = document.getElementById("new-order");
 const btnInput = document.getElementById("input-search-btn");
 const inputName = document.getElementById("input-search");
-
 //-----------------------------Event Listeners--------------------------------//
 
+console.log(app.getWeightFreq(data))
 //Eventlistener para printar os cards na tela inicial e as caixas select para os filtros
 document.addEventListener("DOMContentLoaded", () => {
 
   //Cria um select para os tipos com lista de tipos criada por getTypes
   displayTypeOptions(app.getTypes(data));
+  displayTypeEggs(app.getTypesEgg(data));
+  displayTypeCandy(app.getTypesCandy(data));
+
+
   //FAZER: CRIAR SELECT PARA OVO E CANDY_COUNT
 
   //printa os cards de todos os pokémons
@@ -19,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //Eventlistener para o botão Procurar
+// TRAVAR O USUARIO QUANDO NÃO ESCREVE NADA
 btnInput.addEventListener("click", function (event) {
   event.preventDefault();
     sectionCards.innerHTML = "";
@@ -31,16 +38,23 @@ selectionToSort.addEventListener("change", () => {
 
   //guarda o valor de <option data="..."> DÁ PRA FAZER DE OUTRA FORMA?
   let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute('data');
+
   printAllPokemons(app.sortPokemons(data, selectionToSort.value, targetData));
 });
 
-//Eventlistener para o select por tipo
+//Eventlistener para o select por tipo, ovos e raridade
 filterType.addEventListener("change", () => {
-  printFilter(app.filterDataByType(data, filterType.value, "type"));
+  printFilter(app.filterData(data, filterType.value, "type"));
 });
 
-//FAZER: EVENTLISTENER PARA O SELECT POR OVO
-//FAZER: EVENTLISTENER PARA O SELECT POR CANDY_COUNT
+filterEgg.addEventListener("change", () => {
+  printFilter(app.filterData(data, filterEgg.value, "egg"));
+});
+
+
+filterCandy.addEventListener("change", () => {
+  printFilter(app.filterData(data, filterCandy.value, "candy_count"));
+});
 
 //FAZER: EVENTLISTENER PARA O ÍCONE HOME
 //FAZER: EVENT LISTENER PARA O ÍCONE INFO
@@ -57,7 +71,7 @@ function printFilter(filtered) {
 function printInCards (item) {
   sectionCards.innerHTML += `
     <article class= "cardPokemon">
-    <img src="#" id="${item.name}">
+    <img src="${item.img}" id="${item.name}">
     <h5>${item.name}</h5>
     <p>${item.num}<br>
     ${item.type.map(type => `${type}`).join(", ")}</p>
@@ -67,21 +81,28 @@ function printInCards (item) {
 // <img src="${item.img}" id="${item.name}">
 
 //Printa na tela inicial os cards de todos os Pokémons
-function printAllPokemons (allPokemons){
+function printAllPokemons (data){
   sectionCards.innerHTML = "";
   data.forEach(poke => printInCards(poke));
 };
 
-//Cria options para o <select id="select-type">
+//Cria options para os <select id="select-type", id= "elect-candy-count" e id="select-egg">
 function displayTypeOptions(allTypes) {
   filterType.innerHTML = "";
   filterType.innerHTML = `<option value="none">Filtrar Por Tipo</option>`;
   filterType.innerHTML += allTypes.map(type => `<option value= "${type}"> ${type}</option>`).join("");
 };
 
-//FAZER: CRIAR OPTIONS PARA O SELECT POR OVO
-//FAZER: CRIAR OPTIONS PARA SELECT POR CANDY_COUNT
-
+function displayTypeEggs(egg) {
+  filterEgg.innerHTML = "";
+  filterEgg.innerHTML = `<option value="none">Filtrar Por Ovos</option>`;
+  filterEgg.innerHTML += egg.map(egg => `<option value= "${egg}"> ${egg}</option>`).join("");
+};
+function displayTypeCandy(candy) {
+  filterCandy.innerHTML = "";
+  filterCandy.innerHTML = `<option value="none">Filtrar Por Doces</option>`;
+  filterCandy.innerHTML += candy.map(candy => `<option value= "${candy}"> ${candy}</option>`).join("");
+};
 
 //-----------------------Event listener click no Pokémon----------------------//
 //Eventlistener para o click na imagem do pokémon
@@ -103,11 +124,11 @@ sectionCards.addEventListener( 'click', function( e ) {
         type: 'bar',
 
         data: {
-            labels: Object.keys(getHeightFreq(data)),
+            labels: Object.keys(app.getHeightFreq(data)),
             datasets: [{
                 label: 'Freq: Altura',
                 backgroundColor: '#DD545F',
-                data: Object.values(getHeightFreq(data))
+                data: Object.values(app.getHeightFreq(data))
             }]
         },
         options: {
@@ -147,11 +168,11 @@ sectionCards.addEventListener( 'click', function( e ) {
       type: 'bar',
 
       data: {
-        labels: Object.keys(getWeightFreq(data)),
+        labels: Object.keys(app.getWeightFreq(data)),
         datasets: [{
             label: 'Peso',
             backgroundColor: '#DD545F',
-            data: Object.values(getWeightFreq(data))
+            data: Object.values(app.getWeightFreq(data))
         }]
       },
 
@@ -216,7 +237,7 @@ function printStats(poke) {
   <h4>Id#${poke.id} ${poke.name}</h4> <br>
   <p>Altura: ${poke.height} <br>
   Peso: ${poke.weight} <br>
-  Candy: ${showCandy(poke)} ${poke.candy}<br>
+  Candy: ${app.showCandy(poke)} ${poke.candy}<br>
   Ovo: ${poke.egg} <br>
   Tipo: ${poke.type.map(type => `${type}`).join(", ")} <br>
   Fraqueza de defesa: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
@@ -241,24 +262,6 @@ function printStats(poke) {
   </div>`
 };
 
-//função para mostrar o número de candy apenas se hover um número válido
-function showCandy(el){
-  if(typeof el.candy_count !== "undefined"){
-    return el.candy_count;
-  } else {
-    return "";
-  };
-};
-
-//FAZER!! PRINTAR AS EVOLUÇÕES DOS POKEMONS CONSIDERANDO QUE ALGUNS POSSUEM
-//PREV_EVOLUTION, OUTROS NEXT_EVOLUTION E OUTROS OS DOIS.
-// function getEvolutions(dat) {
-//   //let evols = [];
-//   let evols = dat.map(el => `${el.name}`).join(", ");
-//   return evols;
-// };
-// //console.log(getEvolutions(data[0]))
-
 
 //printa na caixa de ovos as imagens dos pokes correspondentes
 function getEggPokes(data, km){
@@ -267,26 +270,13 @@ function getEggPokes(data, km){
   return b;
 };
 
-//FAZER: PRINTAR OS CANDYS IGUAL OS EGGS
-// function getCandyPokes(data){
-//   // const candyAll = [];
-//   // data.map(poke => candyAll.push(poke.candy_count));
-//   // return freq(candyAll);
-//   let a = data.filter(item => item.candy_count.includes(25));
-//   // let b = a.map(poke => `<img src="${poke.img}">`).join("");
-//   // return b;
-//   return a;
-// };
-//console.log(getCandyPokes(data));
 
-////////////////////////////////////////////////////////////////////////////////
 function getSpawnChance(data){
   const spwanChanceAll = [];
   const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
   dataSort.map(poke => spwanChanceAll.push(poke.spawn_chance));
   return spwanChanceAll;
 };
-////////////////////////////////////////////////////////////////////////////////
 
 //forma uma array de nomes em ordem alfabética
 function getName(data){
@@ -294,44 +284,4 @@ function getName(data){
   const dataSort = data.sort((a,b) => (a.name).localeCompare(b.name));
   dataSort.map(poke => nameAll.push(poke.name));
   return nameAll;
-};
-////////////////////////////////////////////////////////////////////////////////
-
-//Contabiliza o números de vezes que cada item que aparece na array,
-//retorna objeto onde as keys são os itens da array e os values é a quantidade
-function freq(arr) {
-  return arr.reduce((counter, item) => {
-    counter[item] = counter.hasOwnProperty(item) ? counter[item] + 1 : 1;
-    return counter;
-  }, {});
-};
-
-//calcula a frequencia das alturas
-function getHeightFreq(data){
-  const heightAll = [];
-  data.map(poke => heightAll.push(poke.height));
-  heightAll.sort((a,b) => a.localeCompare(b));
-  return freq(heightAll);
-};
-
-//calcula a frequencia dos pesos
-function getWeightFreq(data){
-  const weightAll = [];
-  data.map(poke => {
-    let num = +(poke.weight).replace(' kg','');
-    if (num <= 5) {
-      num = "0.1 - 5.0 kg"
-    } else if (5 > num || num <= 50){
-      num = "5.1 - 50.0 kg"
-    } else if (50 > num || num <= 200){
-      num = "50.1 - 100 kg"
-    } else if (200 > num || num <= 400){
-      num = "100.1 - 300.0 kg"
-    } else if (400 > num || num <= 999){
-      num = "300.1 - 999.0 kg"
-    }
-    weightAll.push(num);
-  });
-  weightAll.sort((a,b) => a.localeCompare(b));
-  return freq(weightAll);
 };
