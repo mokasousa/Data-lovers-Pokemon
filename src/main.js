@@ -18,63 +18,67 @@ document.addEventListener("DOMContentLoaded", () => {
   displayTypeCandy(app.getTypesCandy(data, "candy_count"));
 
   //printa os cards de todos os pokémons
-  printAllPokemons(data);
+  printInCards(data);
 });
 
 //Eventlistener para o botão Procurar
 // TRAVAR O USUARIO QUANDO NÃO ESCREVE NADA
 btnInput.addEventListener("click", function (event) {
   event.preventDefault();
-  sectionCards.innerHTML = "";
-  printInCards(app.findPokemon(data, inputName.value));
-  //};
+  let poke = app.findPokemon(data, inputName.value)
+  if (typeof poke !== "undefined") {
+    printFound(poke);
+  };
 }, false);
 
 //Eventlistener para o select de ordenação
 selectionToSort.addEventListener("change", () => {
 
-  //guarda o valor de <option data="..."> DÁ PRA FAZER DE OUTRA FORMA?
+  //guarda o valor de <option data="...">
   let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute("data");
-
-  printAllPokemons(app.sortPokemons(data, selectionToSort.value, targetData));
+  printInCards(app.sortPokemons(data, selectionToSort.value, targetData));
 });
 
 //Eventlistener para o select por tipo, ovos e raridade
 filterType.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterType.value, "type"));
+  printInCards(app.filterData(data, filterType.value, "type"));
 });
 
 filterEgg.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterEgg.value, "egg"));
+  printInCards(app.filterData(data, filterEgg.value, "egg"));
 });
 
 filterCandy.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterCandy.value, "candy_count"));
+  printInCards(app.filterData(data, filterCandy.value, "candy_count"));
 });
 
 //------------------------------Funções do DOM--------------------------------//
-//Printa na <section class="cards"> os cards de todos os Pokémons que correspondem
-//ao tipo selecionado
-function printFilter(filtered) {
-  sectionCards.innerHTML = "";
-  filtered.forEach(poke => printInCards(poke));
-};
 
 //Add na <section id="list"> as infos de cada Pokémon
-function printInCards (item) {
-  sectionCards.innerHTML += `
+function printInCards(data) {
+  let layout = "";
+  data.forEach(item => {
+    layout += `
+      <article class= "cardPokemon">
+      <img src="${item.img}" id="${item.name}">
+      <h4>${item.name}</h4>
+      <p>${item.num}<br>
+      ${item.type.map(type => `${type}`).join(", ")}</p>
+      </article>`
+  });
+  sectionCards.innerHTML = layout;
+};
+
+function printFound(item) {
+  let layout = "";
+  layout += `
     <article class= "cardPokemon">
     <img src="${item.img}" id="${item.name}">
     <h4>${item.name}</h4>
     <p>${item.num}<br>
     ${item.type.map(type => `${type}`).join(", ")}</p>
     </article>`;
-};
-
-//Printa na tela inicial os cards de todos os Pokémons
-function printAllPokemons (data) {
-  sectionCards.innerHTML = "";
-  data.forEach(poke => printInCards(poke));
+  sectionCards.innerHTML = layout;
 };
 
 //Cria options para os <select id="select-type", id= "elect-candy-count" e id="select-egg">
