@@ -22,7 +22,7 @@ function filterData(data, optionSelected, key) {
     item[key] ? item[key].toString().includes(optionSelected) : false
   );
 };
-//2-OK------------------------------------------------------------------------//
+//2---------------------------------------------------------------------------//
 //mapeia e guarda numa array todos os tipos contidos em data
 function getTypes(data) {
   const poketypes = [];
@@ -38,7 +38,7 @@ function getTypes(data) {
   return poketypes;
 };
 
-//3-OK------------------------------------------------------------------------//
+//3---------------------------------------------------------------------------//
 function getTypesEgg(data) {
   const poketypesEgg = [];
   //1-mapeia o data e 2-mapeia os eggs
@@ -54,7 +54,7 @@ function getTypesEgg(data) {
   return poketypesEgg;
 };
 
-//4-OK------------------------------------------------------------------------//
+//4---------------------------------------------------------------------------//
 function getTypesCandy(data, keyName) {
   const poketypesCandy = [];
   //1-mapeia o data e 2-mapeia os tipos
@@ -120,8 +120,14 @@ function showCandy(el, keyName) {
 //Contabiliza o números de vezes que cada item que aparece na array,
 //retorna objeto onde as keys são os itens da array e os values é a quantidade
 function freq(arr) {
+  //item = cada item da array
   return arr.reduce((counter, item) => {
-    counter[item] = counter.hasOwnProperty(item) ? counter[item] + 1 : 1;
+    //se o objeto contiver o item como chave soma 1, se não coloca 1
+    if (item in counter) {
+      counter[item]++;
+    } else {
+      counter[item] = 1;
+    }
     return counter;
   }, {});
 };

@@ -6,9 +6,9 @@ const sectionCards = document.getElementById("list");
 const selectionToSort = document.getElementById("new-order");
 const btnInput = document.getElementById("input-search-btn");
 const inputName = document.getElementById("input-search");
+
 //-----------------------------Event Listeners--------------------------------//
 
-console.log(app.getWeightFreq(data));
 //Eventlistener para printar os cards na tela inicial e as caixas select para os filtros
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -17,69 +17,68 @@ document.addEventListener("DOMContentLoaded", () => {
   displayTypeEggs(app.getTypesEgg(data));
   displayTypeCandy(app.getTypesCandy(data, "candy_count"));
 
-  //FAZER: CRIAR SELECT PARA OVO E CANDY_COUNT
-
   //printa os cards de todos os pokémons
-  printAllPokemons(data);
+  printInCards(data);
 });
 
 //Eventlistener para o botão Procurar
 // TRAVAR O USUARIO QUANDO NÃO ESCREVE NADA
 btnInput.addEventListener("click", function (event) {
   event.preventDefault();
-  sectionCards.innerHTML = "";
-  printInCards(app.findPokemon(data, inputName.value));
-  //};
+  let poke = app.findPokemon(data, inputName.value)
+  if (typeof poke !== "undefined") {
+    printFound(poke);
+  };
 }, false);
 
 //Eventlistener para o select de ordenação
 selectionToSort.addEventListener("change", () => {
 
-  //guarda o valor de <option data="..."> DÁ PRA FAZER DE OUTRA FORMA?
+  //guarda o valor de <option data="...">
   let targetData = selectionToSort.options[selectionToSort.selectedIndex].getAttribute("data");
-
-  printAllPokemons(app.sortPokemons(data, selectionToSort.value, targetData));
+  printInCards(app.sortPokemons(data, selectionToSort.value, targetData));
 });
 
 //Eventlistener para o select por tipo, ovos e raridade
 filterType.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterType.value, "type"));
+  printInCards(app.filterData(data, filterType.value, "type"));
 });
 
 filterEgg.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterEgg.value, "egg"));
+  printInCards(app.filterData(data, filterEgg.value, "egg"));
 });
 
 filterCandy.addEventListener("change", () => {
-  printFilter(app.filterData(data, filterCandy.value, "candy_count"));
+  printInCards(app.filterData(data, filterCandy.value, "candy_count"));
 });
 
-//FAZER: EVENTLISTENER PARA O ÍCONE HOME
-//FAZER: EVENT LISTENER PARA O ÍCONE INFO
-
-//-------------------------------Functions DOM--------------------------------//
-//Printa na <section class="cards"> os cards de todos os Pokémons que correspondem
-//ao tipo selecionado
-function printFilter(filtered) {
-  sectionCards.innerHTML = "";
-  filtered.forEach(poke => printInCards(poke));
-};
+//------------------------------Funções do DOM--------------------------------//
 
 //Add na <section id="list"> as infos de cada Pokémon
-function printInCards (item) {
-  sectionCards.innerHTML += `
+function printInCards(data) {
+  let layout = "";
+  data.forEach(item => {
+    layout += `
+      <article class= "cardPokemon">
+      <img src="${item.img}" id="${item.name}">
+      <h4>${item.name}</h4>
+      <p>${item.num}<br>
+      ${item.type.map(type => `${type}`).join(", ")}</p>
+      </article>`
+  });
+  sectionCards.innerHTML = layout;
+};
+
+function printFound(item) {
+  let layout = "";
+  layout += `
     <article class= "cardPokemon">
     <img src="${item.img}" id="${item.name}">
-    <h5>${item.name}</h5>
+    <h4>${item.name}</h4>
     <p>${item.num}<br>
     ${item.type.map(type => `${type}`).join(", ")}</p>
     </article>`;
-};
-
-//Printa na tela inicial os cards de todos os Pokémons
-function printAllPokemons (data) {
-  sectionCards.innerHTML = "";
-  data.forEach(poke => printInCards(poke));
+  sectionCards.innerHTML = layout;
 };
 
 //Cria options para os <select id="select-type", id= "elect-candy-count" e id="select-egg">
@@ -94,6 +93,7 @@ function displayTypeEggs(egg) {
   filterEgg.innerHTML = "<option value=\"none\">Filtrar Por Ovos</option>";
   filterEgg.innerHTML += egg.map(egg => `<option value= "${egg}"> ${egg}</option>`).join("");
 };
+
 function displayTypeCandy(candy) {
   filterCandy.innerHTML = "";
   filterCandy.innerHTML = "<option value=\"none\">Filtrar Por Doces</option>";
@@ -121,7 +121,7 @@ sectionCards.addEventListener( "click", function( e ) {
       data: {
         labels: Object.keys(app.getHeightFreq(data)),
         datasets: [{
-          label: "Freq: Altura",
+          label: "Altura",
           backgroundColor: "#DD545F",
           data: Object.values(app.getHeightFreq(data))
         }]
@@ -133,27 +133,8 @@ sectionCards.addEventListener( "click", function( e ) {
           display: true,
           text: "Frequência das Alturas"
         }
-      },
-
-      tooltips: {
-        mode: "index",
-        intersect: true,
-      },
-
-      annotation: {
-        annotations: [{
-          type: "line",
-          mode: "vertical",
-          //scaleID: "x-axis-0",
-          value: app.computeStats(data, "height", " m"),
-          //borderColor: #0089CE,
-          borderWidth: 3,
-          label: {
-            enabled: true,
-            content: "Média dos Alturas"
-          }
-        }]
       }
+
     });
 
     //Chart 2...............................................................
@@ -178,26 +159,6 @@ sectionCards.addEventListener( "click", function( e ) {
           display: true,
           text: "Frequência dos Pesos"
         }
-      },
-
-      tooltips: {
-        mode: "index",
-        intersect: true,
-      },
-
-      annotation: {
-        annotations: [{
-          type: "line",
-          mode: "vertical",
-          scaleID: "x-axis-0",
-          value: app.computeStats(data, "weight", " kg"),
-          //borderColor: #0089CE,
-          borderWidth: 3,
-          label: {
-            enabled: true,
-            content: "Média dos Pesos"
-          }
-        }]
       }
 
     });
@@ -215,13 +176,13 @@ sectionCards.addEventListener( "click", function( e ) {
           borderColor: "#DD545F",
           data: getSpawnChance(data, "spawn_chance")
         }]
-      },
-      //options: {}
+      }
     });
   };
-}, false);//fecha event listener click img pokémon
+}, false);
 
 //-----------------------Funções para pág. de stats---------------------------//
+
 //printa na <main> info do pokémon clicado + gráficos
 function printStats(poke) {
   document.getElementById("main-stats").innerHTML = `
@@ -229,25 +190,34 @@ function printStats(poke) {
   <div class="poke-box">
   <section class= "poke-data" class="main-2">
   <img src="${poke.img}">
-  <h4>Id#${poke.id} ${poke.name}</h4> <br>
+  <h3>Id#${poke.id} ${poke.name}</h3> <br>
   <p>Altura: ${poke.height} <br>
   Peso: ${poke.weight} <br>
   Candy: ${app.showCandy(poke, "candy_count")} ${poke.candy}<br>
   Ovo: ${poke.egg} <br>
   Tipo: ${poke.type.map(type => `${type}`).join(", ")} <br>
-  Fraqueza de defesa: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
+  Fraco contra os tipos: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
+  ${evolutions(poke, "prev_evolution", "next_evolution")}
   </p>
   </section>
+  <section class= "candy-data" class="main-2">
+  <h4>Doces</h4>
+  <p>12:${filterData(data, "12", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  25:${filterData(data, "25", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  50:${filterData(data, "50", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  100:${filterData(data, "100", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  400:${filterData(data, "400", "candy_count").map(poke => `<img src="${poke.img}">`).join("")}</p>
+  </section>
   <section class= "egg-data" class="main-2">
-  <h5>Ovos</h5><br>
-  <p>2 KM: ${getEggPokes(data, "2 km")} <br>
-  5 KM: ${getEggPokes(data, "5 km")} <br>
-  10 KM: ${getEggPokes(data, "10 km")}</p>
+  <h4>Ovos</h4>
+  <p>2 KM: ${filterData(data, "2 km", "egg").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  5 KM: ${filterData(data, "5 km", "egg").map(poke => `<img src="${poke.img}">`).join("")} <br>
+  10 KM: ${filterData(data, "10 km", "egg").map(poke => `<img src="${poke.img}">`).join("")}</p>
   </section>
   </div>
   <section class="main-2">
-  <p>Média de Altura: ${app.computeStats(data, "height", " m")}</p>
-  <p>Média de Peso: ${app.computeStats(data, "weight", " kg")}</p>
+  <p>Média de Altura: ${app.computeStats(data, "height", " m")} m</p>
+  <p>Média de Peso: ${app.computeStats(data, "weight", " kg")} kg</p>
   </section>
   <div class="bars">
   <canvas class="charts" id="heightChart"></canvas>
@@ -257,19 +227,11 @@ function printStats(poke) {
   </div>`;
 };
 
-//printa na caixa de ovos as imagens dos pokes correspondentes
-function getEggPokes(data, km) {
-  let a = data.filter(item => item.egg.includes(km));
-  let b = a.map(poke => `<img src="${poke.img}">`).join("");
-  return b;
+//printa as evoluções
+function evolutions(poke, prev, next) {
+  //condicional ternário: se existe prev_evolution printa, se não deixa vazio
+  let a = poke[prev] ? `Evoluções anteriores: ${poke[prev].map(i => `${i.name}`).join(", ")} <br>` : "";
+  //condicional ternário: se existe next_evolution printa, se não deixa vazio
+  let b = poke[next] ? `Evoluções posteriores: ${poke[next].map(i => `${i.name}`).join(", ")}` : "";
+  return a + b;
 };
-
-/*
-//printa na caixa de ovos as imagens dos pokes correspondentes
-function getCandyPokes(data, num){
-  let a = data.filter(item => item.candy_count.includes(num));
-  let b = a.map(poke => `<img src="${poke.img}">`).join("");
-  return b;
-};*/
-
-//console.log(getCandyPokes(data, "25"));
