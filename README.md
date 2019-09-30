@@ -20,12 +20,12 @@ O desenho e as cores desta aplicação foram inspiradas no próprio jogo Pokémo
 
 Ao fazer download da aplicação web o usuário entrará na página principal onde haverá no menu navegação um ícone para voltar para Home e um ícone Info, para saber mais informações sobre como funciona o jogo e como pode utilizar os dados a seu favor.
 Na Home há um campo para o usuário inserir o nome de um Pokémon específico que deseja procurar na Pokedéx, o botão procurar só funciona caso o usuário escreva o nome do Pokémon corretamente. Contém também três caixas de seleção de filtrar os Pokémons a partir e uma característica específica (tipos, ovos, doces) e uma caixa de selação para organizar a Pokedéx por ordem alfabética ou Id.
-O usuário pode também clicar nas imagens dos Pokemóns para saber mais informações. Ao clicar, apareceram uma caixa com as informações sobre do Pokémon (peso, altura, fraquezas, doce, ovo, evoluções anteriores e posteriores), duas caixas mostrando todos Pokémons divididos pelos tipos de ovo e quantidade de doce, duas caixas mostrando a média dos pesos e alturas, dois gráficos para visualização de mínimos e máximos de pesos e altura e como está distribuído pela Pokedéx, e um gráfico que mostra a probabilidade de encontrar cada Pokémon, mostrando assim quais são mais raros e mais comuns de encontrar.
+O usuário pode também clicar nas imagens dos Pokemóns para saber mais informações. Ao clicar, apareceram uma caixa com as informações sobre o Pokémon (peso, altura, fraquezas, doce, ovo, evoluções anteriores e posteriores), duas caixas mostrando todos Pokémons divididos pelos tipos de ovo e quantidade de doce, duas caixas mostrando a média dos pesos e alturas, dois gráficos para visualização de mínimos e máximos de pesos e altura e como está distribuído pela Pokedéx, e um gráfico que mostra a probabilidade de encontrar cada Pokémon, mostrando assim quais são mais raros e mais comuns de encontrar.
 
 ## Autores
 
-* Mônica Sousa - HTML, CSS e JavaScript
-* Jéssica Nascimento - HTML, CSS e JavaScript
+* Mônica Sousa - HTML5, CSS3 e JavaScript
+* Jéssica Nascimento - HTML5, CSS3 e JavaScript
 * Laboratória SP
 
 
