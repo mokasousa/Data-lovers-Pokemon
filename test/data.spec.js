@@ -1,7 +1,7 @@
 require("../src/data.js");
 
 const function1 = [{type: ["paloma", "jessica"]}, {type: ["paloma", "monica"]}, {type: ["juliana"]}];
-describe("Filter", () => {
+describe("filterData", () => {
   it("is a function", () => {
     expect(typeof app.filterData).toBe("function");
   });
@@ -11,7 +11,7 @@ describe("Filter", () => {
 });
 
 const function2 = [{type: ["paloma", "jessica"]}, {type: ["paloma", "monica"]}, {type: ["juliana"]}];
-describe("get all types", () => {
+describe("getTypes", () => {
   it("is a function", () => {
     expect(typeof app.getTypes).toBe("function");
   });
@@ -21,7 +21,7 @@ describe("get all types", () => {
 });
 
 const function3 = [{egg: "banana"}, {egg: "laranja"}, {egg: "banana"}];
-describe("get all eggs", () => {
+describe("getTypesEgg", () => {
   it("is a function", () => {
     expect(typeof app.getTypesEgg).toBe("function");
   });
@@ -31,7 +31,7 @@ describe("get all eggs", () => {
 });
 
 const function4 = [{candyCount: 25}, {candyCount: 10}, {candyCount: 25}];
-describe("get all Candy", () => {
+describe("getTypesCandy", () => {
   it("is a function", () => {
     expect(typeof app.getTypesCandy).toBe("function");
   });
@@ -41,7 +41,7 @@ describe("get all Candy", () => {
 });
 
 const function5 = [{name: "paloma"}, {name: "jessica"}, {name: "monica"}];
-describe("ordenate", () => {
+describe("sortPokemons", () => {
   it("is a function", () => {
     expect(typeof app.sortPokemons).toBe("function");
   });
@@ -51,9 +51,9 @@ describe("ordenate", () => {
 });
 
 const function6 = [{name: "paloma"}, {name: "jessica"}, {name: "monica"}];
-describe("ordenate", () => {
+describe("findPokemon", () => {
   it("is a function", () => {
-    expect(typeof app.sortPokemons).toBe("function");
+    expect(typeof app.findPokemon).toBe("function");
   });
   it("returns array data on a new order", () => {
     expect(app.findPokemon(function6, "jessica")).toEqual({name: "jessica"});
@@ -61,7 +61,7 @@ describe("ordenate", () => {
 });
 
 const function7 = [{height: "1.62 m"}, {height: "1.69 m"}, {height: "1.79 m"}];
-describe("find the mean", () => {
+describe("computeStats", () => {
   it("is a function", () => {
     expect(typeof app.computeStats).toBe("function");
   }); 
@@ -71,7 +71,7 @@ describe("find the mean", () => {
 });
 
 const function8 = {candyCount: 1.62};
-describe("find the candyCount value excluding undefined", () => {
+describe("showCandy", () => {
   it("is a function", () => {
     expect(typeof app.showCandy).toBe("function");
   });
@@ -81,7 +81,7 @@ describe("find the candyCount value excluding undefined", () => {
 });
 
 const function9 = [3, 4, 10, 3, 6, 7, 12, 6, 3];
-describe("Get the array and shows the frequency of each item", () => {
+describe("freq", () => {
   it("is a function", () => {
     expect(typeof app.freq).toBe("function");
   });
@@ -91,7 +91,7 @@ describe("Get the array and shows the frequency of each item", () => {
 });
 
 const function10 = [{height: "banana"}, {height: "maçã"}, {height: "banana"}];
-describe("Get the objects containing the height and shows the frequency of each item", () => {
+describe("getHeightFreq", () => {
   it("is a function", () => {
     expect(typeof app.getHeightFreq).toBe("function");
   });
@@ -101,7 +101,7 @@ describe("Get the objects containing the height and shows the frequency of each 
 });
 
 const function11 = [{weight: "2 kg"}, {weight: "12 kg"}, {weight: "2 kg"}];
-describe("Get the objects containing the weight and shows the frequency of each item", () => {
+describe("getWeightFreq", () => {
   it("is a function", () => {
     expect(typeof app.getWeightFreq).toBe("function");
   });
@@ -111,7 +111,7 @@ describe("Get the objects containing the weight and shows the frequency of each 
 });
 
 const function12 = [{name: "banana", spawnChance: 1}, {name: "amora", spawnChance: 3}, {name: "maçã", spawnChance: 2}];
-describe("Get and sort object names and create an array with spawnChance", () => {
+describe("getSpawnChance", () => {
   it("is a function", () => {
     expect(typeof app.getSpawnChance).toBe("function");
   });
@@ -121,7 +121,7 @@ describe("Get and sort object names and create an array with spawnChance", () =>
 });
 
 const function13 = [{name: "banana"}, {name: "amora"}, {name: "maçã"}];
-describe("Get and sort object names", () => {
+describe("getName", () => {
   it("is a function", () => {
     expect(typeof app.getName).toBe("function");
   });
