@@ -6,10 +6,10 @@ app = {
   sortPokemons,
   findPokemon,
   computeStats,
-  showCandy,
+  // showCandy,
   freq,
-  getHeightFreq,
-  getWeightFreq,
+  // getHeightFreq,
+  // getWeightFreq,
   getSpawnChance,
   getName
 };
@@ -33,7 +33,6 @@ function getTypesEgg(data) {
   }, {});
 };
 
-//4---------------------------------------------------------------------------//
 function getTypesCandy(data, keyName) {
   const pokeCandy = data.map(({candy_count}) => candy_count).filter(i => typeof i !== "undefined");
   return pokeCandy.reduce((unique, item) => {
@@ -53,16 +52,12 @@ function sortPokemons(data, sortBy, sortOrder) {
 
 function findPokemon(data, name) {
   const found = data.find(el => el.name.toUpperCase() === name.toUpperCase());
-  if (found) return;
+  if (found) return found;
 }
 
 
 function computeStats(data, key, h) {
   return (data.map(poke => +(poke[key]).replace(h, "")).reduce((total, next) => total + next)/data.length).toFixed(2);
-};
-
-function showCandy(el, keyName) {
-  return typeof el[keyName] !== "undefined" ? el[keyName] : "";
 };
 
 function freq(arr) {
@@ -76,35 +71,37 @@ function freq(arr) {
   }, {});
 };
 
-function getHeightFreq(data) {
-  return freq(data.map(({height}) => height).sort((a, b) => a.localeCompare(b)));
-};
+// function getHeightFreq(data) {
+//   return freq(data.map(({height}) => height).sort((a, b) => a.localeCompare(b)));
+// };
 
-//11---------------------------------------------------------------------------//
-//calcula a frequencia dos pesos
-function getWeightFreq(data) {
-  const weightAll = data.map(poke => {
-    let num = +(poke.weight).replace(" kg", "");
-    if (num <= 5) {
-      num = "0.1 - 5.0 kg";
-    } else if (5 > num || num <= 50) {
-      num = "5.1 - 50.0 kg";
-    } else if (50 > num || num <= 200) {
-      num = "50.1 - 100 kg";
-    } else if (200 > num || num <= 400) {
-      num = "100.1 - 300.0 kg";
-    } else if (400 > num || num <= 999) {
-      num = "300.1 - 999.0 kg";
-    }
-  });
-  weightAll.sort((a, b) => a.localeCompare(b));
-  return app.freq(weightAll);
-};
+// //11---------------------------------------------------------------------------//
+// //calcula a frequencia dos pesos
+// function getWeightFreq(data) {
+//   const weightAll = data.map(poke => {
+//     let num = +(poke.weight).replace(" kg", "");
+//     if (num <= 5) {
+//       num = "0.1 - 5.0 kg";
+//     } else if (5 > num || num <= 50) {
+//       num = "5.1 - 50.0 kg";
+//     } else if (50 > num || num <= 200) {
+//       num = "50.1 - 100 kg";
+//     } else if (200 > num || num <= 400) {
+//       num = "100.1 - 300.0 kg";
+//     } else if (400 > num || num <= 999) {
+//       num = "300.1 - 999.0 kg";
+//     }
+//   });
+//   weightAll.sort((a, b) => a.localeCompare(b));
+//   return app.freq(weightAll);
+// };
 
-function getSpawnChance(data, keyName) {
+function getSpawnChance(data, keyName1, keyName2) {
   const spwanChanceAll = [];
   const dataSort = data.sort((a, b) => (a.name).localeCompare(b.name));
-  dataSort.forEach(poke => spwanChanceAll.push(poke[keyName]));
+  dataSort.forEach(poke => {
+    console.log(poke[keyName2])
+    spwanChanceAll.push({x: poke[keyName1], y: +poke[keyName2]})});
   return spwanChanceAll;
 };
 

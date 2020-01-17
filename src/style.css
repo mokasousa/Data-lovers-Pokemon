@@ -114,6 +114,10 @@ right: 0;
 border-width: 0.5em 1em 0 0
 }
 
+.main-section{
+  margin: auto;
+  text-align: center;
+}
 
 .inputs{
   padding: 0.5em;
@@ -169,7 +173,7 @@ border-width: 0.5em 1em 0 0
 .cardPokemon{
   background-color: #D4E6B5;
   width: 165px;
-  height: 220px;
+  height: fit-content;
   display: inline-block;
   text-align: center;
   white-space: nowrap;
@@ -180,7 +184,7 @@ border-width: 0.5em 1em 0 0
 }
 
 .cardPokemon p{
-  margin: 0;
+  margin: 0.2 0;
   text-align: center;
 }
 
@@ -188,6 +192,92 @@ border-width: 0.5em 1em 0 0
   -webkit-transform: scale(0.9);
 	transform: scale(0.9);
   cursor: pointer;
+}
+
+.types{
+  min-height: 40px;
+}
+
+.label {
+  width: 50%;
+  max-width: 200px;
+  font-size: 12px;
+  text-align: center;
+  margin: 0 auto 0.5em auto;
+  border-radius: 4px;
+}
+
+.label-Bug {
+  background-color: #729f3f;
+}
+
+.label-Dragon {
+  color: #ffffff;
+  background-color: #53a4cf;
+  background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+}
+
+.label-Fire {
+  color: #ffffff;
+  background-color: #fd7d24;
+}
+
+.label-Ghost {
+  color: #ffffff;
+  background-color: #7b62a3;
+}
+
+.label-Ground {
+  background-color: #f7de3f;
+  background: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+}
+
+.label-Normal {
+  background-color: #a4acaf;
+}
+
+.label-Psychic {
+  color: #ffffff;
+  background-color: #f366b9;
+}
+
+.label-Electric {
+  background-color: #eed535;
+}
+
+.label-Fighting {
+  color: #ffffff;
+  background-color: #d56723;
+}
+
+.label-Flying {
+  color: #ffffff;
+  background-color: #3dc7ef;
+  background: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+}
+
+.label-Grass {
+  background-color: #9bcc50;
+}
+
+.label-Ice {
+  color: #ffffff;
+  background-color: #51c4e7;
+}
+
+.label-Poison {
+  color: #ffffff;
+  background-color: #b97fc9;
+}
+
+.label-Rock {
+  color: #ffffff;
+  background-color: #a38c21;
+}
+
+.label-Water {
+  color: #ffffff;
+  background-color: #4592c4;
 }
 
 .footer-section{
@@ -203,31 +293,46 @@ border-width: 0.5em 1em 0 0
   vertical-align: top;
 }
 
-.main-2 p{
-  background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
-  border: 4px solid #0089CE;
-  border-radius: 8px;
-  display: inline-block;
-  margin: 0.5em;
-  padding: 0.5em;
-  width: 250px;
+.main{
+  display: flex;
+  flex-wrap: wrap;
 }
-
 .poke-data{
   background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
   border: 4px solid #0089CE;
   border-radius: 8px;
-  width: 310px;
-  height: 380px;
+  max-width: 70%;
+  height: fit-content;
   margin: 0.5em;
   padding: 0.5em;
+  text-align: center;
+  flex-grow: 0;
+}
+
+.poke-data p{
+  margin: 0.5em auto;
 }
 
 .poke-data img{
   width: 45%;
+  max-width: 170px;
 }
 
-.egg-data{
+/* .weakness{
+  background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
+  border: 4px solid #0089CE;
+  border-radius: 8px;
+  width: 300px;
+  height: fit-content;
+  margin: 0.5em;
+  padding: 0.5em;
+} */
+
+.weakness img{
+  width: 1.5em;
+}
+
+/* .egg-data{
   background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
   border: 4px solid #0089CE;
   border-radius: 8px;
@@ -235,31 +340,27 @@ border-width: 0.5em 1em 0 0
   height: 280px;
   margin: 0.5em;
   padding: 0.5em;
-}
+} */
 
-.egg-data img{
-  width: 1.5em;
-}
-
-.candy-data{
+.main-2 {
   background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
   border: 4px solid #0089CE;
   border-radius: 8px;
-  width: 300px;
-  height: 340px;
+  display: inline-block;
+  text-align: center;
   margin: 0.5em;
   padding: 0.5em;
+  max-width: 70%;
 }
-
-.candy-data img{
+.main-2 img{
   width: 1.5em;
 }
 
-.bars{
-  display: flex;
-  flex-wrap: wrap;
-  vertical-align: top;
+.main-2 p{
+  margin: 0.5em;
+  text-align: left;
 }
+
 
 .charts{
   background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);

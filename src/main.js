@@ -43,15 +43,16 @@ filterCandy.addEventListener("change", () => {
 });
 
 function printInCards(data) {
-  const layout = "";
+  let layout = "";
   data.forEach(item => {
+    const types = item.type.map(type => `<div class="label label-${type}">${type}</div>`).join("");
     layout += `
       <article class= "cardPokemon">
         <img src="${item.img}" id="${item.name}">
         <h4>${item.name}</h4>
         <p>
-          ${item.num}<br>
-          ${item.type.map(type => `${type}`).join(", ")}
+          # ${item.num}<br>
+          <div class="types">${types}</div>
         </p>
       </article>`
   });
@@ -59,13 +60,14 @@ function printInCards(data) {
 };
 
 function printFound(item) {
+  const types = item.type.map(type => `<div class="label label-${type}">${type}</div>`).join("");
   let layout = "";
   layout += `
     <article class= "cardPokemon">
       <img src="${item.img}" id="${item.name}">
       <h4>${item.name}</h4>
       <p>${item.num}<br>
-      ${item.type.map(type => `${type}`).join(", ")}</p>
+      ${types}</p>
     </article>`;
   sectionCards.innerHTML = layout;
 };
@@ -90,122 +92,124 @@ function displayTypeCandy(candy) {
 
 sectionCards.addEventListener("click", (e) => {
 
-  if (e.target.nodeName == "IMG") {
+  if (e.target.nodeName === "IMG") {
 
     let poke = findPokemon(data, e.target.id);
 
     printStats(poke);
 
-    const ctxHeight = document.getElementById("heightChart").getContext("2d");
-    const chart = new Chart(ctxHeight, {
-      type: "bar",
+    // const ctxHeight = document.getElementById("heightChart").getContext("2d");
+    // const chart = new Chart(ctxHeight, {
+    //   type: "bar",
 
-      data: {
-        labels: Object.keys(app.getHeightFreq(data)),
-        datasets: [{
-          label: "Altura",
-          backgroundColor: "#DD545F",
-          data: Object.values(app.getHeightFreq(data))
-        }]
-      },
-      options: {
-        responsive: true,
-        mantainAspectRatio: false,
-        title: {
-          display: true,
-          text: "Frequência das Alturas"
-        }
-      }
+    //   data: {
+    //     labels: Object.keys(app.getHeightFreq(data)),
+    //     datasets: [{
+    //       label: "Altura",
+    //       backgroundColor: "#DD545F",
+    //       data: Object.values(app.getHeightFreq(data))
+    //     }]
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     mantainAspectRatio: false,
+    //     title: {
+    //       display: true,
+    //       text: "Frequência das Alturas"
+    //     }
+    //   }
 
-    });
+    // });
 
-    const ctxWeight = document.getElementById("weightChart").getContext("2d");
-    const chart = new Chart(ctxWeight, {
+    // const ctxWeight = document.getElementById("weightChart").getContext("2d");
+    // const chart1 = new Chart(ctxWeight, {
 
-      type: "bar",
+    //   type: "bar",
 
-      data: {
-        labels: Object.keys(app.getWeightFreq(data)),
-        datasets: [{
-          label: "Peso",
-          backgroundColor: "#DD545F",
-          data: Object.values(app.getWeightFreq(data))
-        }]
-      },
+    //   data: {
+    //     labels: Object.keys(app.getWeightFreq(data)),
+    //     datasets: [{
+    //       label: "Peso",
+    //       backgroundColor: "#DD545F",
+    //       data: Object.values(app.getWeightFreq(data))
+    //     }]
+    //   },
 
-      options: {
-        responsive: true,
-        mantainAspectRatio: false,
-        title: {
-          display: true,
-          text: "Frequência dos Pesos"
-        }
-      }
+    //   options: {
+    //     responsive: true,
+    //     mantainAspectRatio: false,
+    //     title: {
+    //       display: true,
+    //       text: "Frequência dos Pesos"
+    //     }
+    //   }
 
-    });
+    // });
 
-    var ctxSpawn = document.getElementById("rarityChart").getContext("2d");
-    var chart = new Chart(ctxSpawn, {
+    const ctxSpawn = document.getElementById("rarityChart").getContext("2d");
+    const chart2 = new Chart(ctxSpawn, {
 
-      type: "line",
+      type: "scatter",
 
       data: {
         labels: getName(data),
         datasets: [{
           label: "Probabilidade de encontrar Pokémon em %",
           borderColor: "#DD545F",
-          data: getSpawnChance(data, "spawn_chance")
+          data: getSpawnChance(data, "spawn_chance", "spawn_time")
         }]
       }
     });
   };
 }, false);
 
+console.log(getSpawnChance(data, "spawn_chance"))
+
 function printStats(poke) {
+  const types = poke.type.map(type => `<div class="label label-${type}">${type}</div>`).join("");
+  const weaknessArr = poke.weaknesses.map(type => filterData(data, type, "type")).flat();
+  const weakness = weaknessArr.reduce((unique, poke) => unique.includes(poke) ? unique : [...unique, poke], []).map(poke => `<img src="${poke.img}">`).join('')
+  //
   document.getElementById("main-stats").innerHTML = `
   <div class="main">
     <div class="poke-box">
-      <section class= "poke-data" class="main-2">
+      <section class= "poke-data" >
         <img src="${poke.img}">
         <h3>Id#${poke.id} ${poke.name}</h3> <br>
-        <p>
-          Altura: ${poke.height} <br>
-          Peso: ${poke.weight} <br>
-          Candy: ${app.showCandy(poke, "candy_count")} ${poke.candy}<br>
-          Ovo: ${poke.egg} <br>
-          Tipo: ${poke.type.map(type => `${type}`).join(", ")} <br>
-          Fraco contra os tipos: ${poke.weaknesses.map(type => `${type}`).join(", ")} <br>
-          ${evolutions(poke, "prev_evolution", "next_evolution")}
-        </p>
+        <p>Mede ${poke.height} e pesa ${poke.weight} </p>
+        <p>${poke.candy} ${showCandy(poke, "candy_count")}</p>
+        <p>${poke.egg === 'Not in Eggs' ? 'Não está em ovos!' : 'Pode eclodir em ovos de '+poke.egg} </p>
+        <p>${types}
+        <p>${evolutions(poke, "prev_evolution", "next_evolution")}</p>
+        <p class="weakness">Fraco contra: <br> ${weakness} </p>
       </section>
-      <section class= "candy-data" class="main-2">
+      <section class="main-2">
+        <h3>Compare o Pokemón</h3>
+        <br>
+        <h4>Médias</h4>
+        <p>Média de Altura: ${app.computeStats(data, "height", " m")} m</p>
+        <p>Média de Peso: ${app.computeStats(data, "weight", " kg")} kg</p>
+        <br>
+        <h4>Raridade</h4>
+        <canvas class="charts" id="rarityChart"></canvas>
+        <br>
         <h4>Doces</h4>
         <p>
-          12:${filterData(data, "12", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          25:${filterData(data, "25", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          50:${filterData(data, "50", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          100:${filterData(data, "100", "candy_count").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          400:${filterData(data, "400", "candy_count").map(poke => `<img src="${poke.img}">`).join("")}
+          12:${filterData(data, "12", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
+          25:${filterData(data, "25", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
+          50:${filterData(data, "50", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
+          100:${filterData(data, "100", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
+          400:${filterData(data, "400", "candy_count").map(el => `<img src="${el.img}">`).join("")}
         </p>
-      </section>
-      <section class= "egg-data" class="main-2">
+        <br>
         <h4>Ovos</h4>
         <p>
-          2 KM: ${filterData(data, "2 km", "egg").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          5 KM: ${filterData(data, "5 km", "egg").map(poke => `<img src="${poke.img}">`).join("")} <br>
-          10 KM: ${filterData(data, "10 km", "egg").map(poke => `<img src="${poke.img}">`).join("")}
-        </p>
+          2 KM: ${filterData(data, "2 km", "egg").map(el => `<img src="${el.img}">`).join("")} <br>
+          5 KM: ${filterData(data, "5 km", "egg").map(el => `<img src="${el.img}">`).join("")} <br>
+          10 KM: ${filterData(data, "10 km", "egg").map(el => `<img src="${el.img}">`).join("")}
+        </p> 
       </section>
     </div>
-    <section class="main-2">
-      <p>Média de Altura: ${app.computeStats(data, "height", " m")} m</p>
-      <p>Média de Peso: ${app.computeStats(data, "weight", " kg")} kg</p>
-    </section>
-    <div class="bars">
-      <canvas class="charts" id="heightChart"></canvas>
-      <canvas class="charts" id="weightChart"></canvas>
-    </div>
-    <canvas class="charts" id="rarityChart"></canvas>
   </div>`;
 };
 
@@ -213,4 +217,8 @@ function evolutions(poke, prev, next) {
   let a = poke[prev] ? `Evoluções anteriores: ${poke[prev].map(i => `${i.name}`).join(", ")} <br>` : "";
   let b = poke[next] ? `Evoluções posteriores: ${poke[next].map(i => `${i.name}`).join(", ")}` : "";
   return a + b;
+};
+
+function showCandy(el, keyName) {
+  return typeof el[keyName] !== "undefined" ? "(Precisa de "+el[keyName]+" para evoluir)" : "";
 };
