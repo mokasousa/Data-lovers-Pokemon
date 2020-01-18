@@ -172,7 +172,7 @@ border-width: 0.5em 1em 0 0
 
 .cardPokemon{
   background-color: #D4E6B5;
-  width: 165px;
+  width: 145px;
   height: fit-content;
   display: inline-block;
   text-align: center;
@@ -208,85 +208,82 @@ border-width: 0.5em 1em 0 0
 }
 
 .label-Bug {
+  color: #ffffff;
   background-color: #729f3f;
 }
 
 .label-Dragon {
   color: #ffffff;
-  background-color: #53a4cf;
-  background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+  background-color: #f89280
 }
 
 .label-Fire {
   color: #ffffff;
-  background-color: #fd7d24;
+  background-color: #ff6a00;
 }
 
 .label-Ghost {
   color: #ffffff;
-  background-color: #7b62a3;
+  background-color: #614988;
 }
 
 .label-Ground {
-  background-color: #f7de3f;
-  background: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+  color: #ffffff;
+  background-color: #5a3a0b;
 }
 
 .label-Normal {
-  background-color: #a4acaf;
+  background-color: #a3a3a3;
 }
 
 .label-Psychic {
   color: #ffffff;
-  background-color: #f366b9;
+  background-color: #cc1c83;
 }
 
 .label-Electric {
-  background-color: #eed535;
+  background-color: #ffdd01;
 }
 
 .label-Fighting {
   color: #ffffff;
-  background-color: #d56723;
+  background-color: #851717;
 }
 
 .label-Flying {
-  color: #ffffff;
-  background-color: #3dc7ef;
-  background: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+  background-color: #11a6cf;
 }
 
 .label-Grass {
-  background-color: #9bcc50;
+  background-color: #8dd128;
 }
 
 .label-Ice {
-  color: #ffffff;
-  background-color: #51c4e7;
+  background-color: #baeefd;
 }
 
 .label-Poison {
   color: #ffffff;
-  background-color: #b97fc9;
+  background-color: #68556d;
 }
 
 .label-Rock {
   color: #ffffff;
-  background-color: #a38c21;
+  background-color: #555244;
 }
 
 .label-Water {
-  color: #ffffff;
-  background-color: #4592c4;
+  background-color: #75ddda;
 }
 
 .footer-section{
   text-align: center;
   background-color: #FADF63;
-  margin-top: 0.5em;
+  margin-top: auto;
   padding: 0.5em;
+  width: 100%;
+  bottom: 0;
 }
-
 
 .poke-box section{
   display: inline-block;
@@ -318,29 +315,9 @@ border-width: 0.5em 1em 0 0
   max-width: 170px;
 }
 
-/* .weakness{
-  background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
-  border: 4px solid #0089CE;
-  border-radius: 8px;
-  width: 300px;
-  height: fit-content;
-  margin: 0.5em;
-  padding: 0.5em;
-} */
-
 .weakness img{
   width: 1.5em;
 }
-
-/* .egg-data{
-  background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
-  border: 4px solid #0089CE;
-  border-radius: 8px;
-  width: 300px;
-  height: 280px;
-  margin: 0.5em;
-  padding: 0.5em;
-} */
 
 .main-2 {
   background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
@@ -363,11 +340,9 @@ border-width: 0.5em 1em 0 0
 
 
 .charts{
-  background: linear-gradient(to bottom, #A7E0CF, #d4e6b5, #E7F1D6);
-  border: 4px solid #0089CE;
   border-radius: 8px;
   width: 90% !important;
-  height: 80% !important;
+  height: fit-content;
   margin: 0.5em;
   padding: 0.5em;
 }
@@ -377,7 +352,13 @@ border-width: 0.5em 1em 0 0
   background-color: #D4E6B5;
   box-shadow: 4px 8px 10px #2B2C28;
   border-radius: 8px;
-  width: 90%;
+  width: fit-content;
   margin: 0.5em;
   padding: 0.5em;
+}
+
+.page-info{
+  display:flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

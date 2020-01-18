@@ -70,15 +70,15 @@ describe("computeStats", () => {
   });
 });
 
-const function8 = {candyCount: 1.62};
-describe("showCandy", () => {
-  it("is a function", () => {
-    expect(typeof app.showCandy).toBe("function");
-  });
-  it("returns the number", () => {
-    expect(app.showCandy(function8, "candyCount")).toEqual(1.62);
-  });
-});
+// const function8 = {candyCount: 1.62};
+// describe("showCandy", () => {
+//   it("is a function", () => {
+//     expect(typeof app.showCandy).toBe("function");
+//   });
+//   it("returns the number", () => {
+//     expect(app.showCandy(function8, "candyCount")).toEqual(1.62);
+//   });
+// });
 
 const function9 = [3, 4, 10, 3, 6, 7, 12, 6, 3];
 describe("freq", () => {
@@ -90,25 +90,6 @@ describe("freq", () => {
   });
 });
 
-const function10 = [{height: "banana"}, {height: "maçã"}, {height: "banana"}];
-describe("getHeightFreq", () => {
-  it("is a function", () => {
-    expect(typeof app.getHeightFreq).toBe("function");
-  });
-  it("returns one object with the item and its frequency", () => {
-    expect(app.getHeightFreq(function10)).toEqual({"banana": 2, "maçã": 1});
-  });
-});
-
-const function11 = [{weight: "2 kg"}, {weight: "12 kg"}, {weight: "2 kg"}];
-describe("getWeightFreq", () => {
-  it("is a function", () => {
-    expect(typeof app.getWeightFreq).toBe("function");
-  });
-  it("returns one object with the item and its frequency", () => {
-    expect(app.getWeightFreq(function11)).toEqual( {"0.1 - 5.0 kg": 2, "5.1 - 50.0 kg": 1});
-  });
-});
 
 const function12 = [{name: "banana", spawnChance: 1}, {name: "amora", spawnChance: 3}, {name: "maçã", spawnChance: 2}];
 describe("getSpawnChance", () => {

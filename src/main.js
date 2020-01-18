@@ -147,29 +147,28 @@ sectionCards.addEventListener("click", (e) => {
     // });
 
     const ctxSpawn = document.getElementById("rarityChart").getContext("2d");
-    const chart2 = new Chart(ctxSpawn, {
+    new Chart(ctxSpawn, {
 
-      type: "scatter",
+      type: "line",
 
       data: {
         labels: getName(data),
         datasets: [{
           label: "Probabilidade de encontrar Pokémon em %",
-          borderColor: "#DD545F",
-          data: getSpawnChance(data, "spawn_chance", "spawn_time")
+          borderColor: "transparent",
+          pointBackgroundColor:"#DD545F",
+          pointBorderWidth: "3px",
+          data: getSpawnChance(data, "spawn_chance")
         }]
-      }
+      },
     });
   };
 }, false);
-
-console.log(getSpawnChance(data, "spawn_chance"))
 
 function printStats(poke) {
   const types = poke.type.map(type => `<div class="label label-${type}">${type}</div>`).join("");
   const weaknessArr = poke.weaknesses.map(type => filterData(data, type, "type")).flat();
   const weakness = weaknessArr.reduce((unique, poke) => unique.includes(poke) ? unique : [...unique, poke], []).map(poke => `<img src="${poke.img}">`).join('')
-  //
   document.getElementById("main-stats").innerHTML = `
   <div class="main">
     <div class="poke-box">
@@ -177,37 +176,17 @@ function printStats(poke) {
         <img src="${poke.img}">
         <h3>Id#${poke.id} ${poke.name}</h3> <br>
         <p>Mede ${poke.height} e pesa ${poke.weight} </p>
-        <p>${poke.candy} ${showCandy(poke, "candy_count")}</p>
+        <p>${poke.candy === 'None'? '' : poke.candy} ${showCandy(poke, "candy_count")}</p>
         <p>${poke.egg === 'Not in Eggs' ? 'Não está em ovos!' : 'Pode eclodir em ovos de '+poke.egg} </p>
         <p>${types}
         <p>${evolutions(poke, "prev_evolution", "next_evolution")}</p>
-        <p class="weakness">Fraco contra: <br> ${weakness} </p>
+        <p class="weakness">Fraquezas contra: <br> ${weakness} </p>
       </section>
       <section class="main-2">
-        <h3>Compare o Pokemón</h3>
-        <br>
-        <h4>Médias</h4>
-        <p>Média de Altura: ${app.computeStats(data, "height", " m")} m</p>
-        <p>Média de Peso: ${app.computeStats(data, "weight", " kg")} kg</p>
-        <br>
+        
         <h4>Raridade</h4>
         <canvas class="charts" id="rarityChart"></canvas>
-        <br>
-        <h4>Doces</h4>
-        <p>
-          12:${filterData(data, "12", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
-          25:${filterData(data, "25", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
-          50:${filterData(data, "50", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
-          100:${filterData(data, "100", "candy_count").map(el => `<img src="${el.img}">`).join("")} <br>
-          400:${filterData(data, "400", "candy_count").map(el => `<img src="${el.img}">`).join("")}
-        </p>
-        <br>
-        <h4>Ovos</h4>
-        <p>
-          2 KM: ${filterData(data, "2 km", "egg").map(el => `<img src="${el.img}">`).join("")} <br>
-          5 KM: ${filterData(data, "5 km", "egg").map(el => `<img src="${el.img}">`).join("")} <br>
-          10 KM: ${filterData(data, "10 km", "egg").map(el => `<img src="${el.img}">`).join("")}
-        </p> 
+        
       </section>
     </div>
   </div>`;

@@ -6,10 +6,7 @@ app = {
   sortPokemons,
   findPokemon,
   computeStats,
-  // showCandy,
   freq,
-  // getHeightFreq,
-  // getWeightFreq,
   getSpawnChance,
   getName
 };
@@ -71,37 +68,10 @@ function freq(arr) {
   }, {});
 };
 
-// function getHeightFreq(data) {
-//   return freq(data.map(({height}) => height).sort((a, b) => a.localeCompare(b)));
-// };
-
-// //11---------------------------------------------------------------------------//
-// //calcula a frequencia dos pesos
-// function getWeightFreq(data) {
-//   const weightAll = data.map(poke => {
-//     let num = +(poke.weight).replace(" kg", "");
-//     if (num <= 5) {
-//       num = "0.1 - 5.0 kg";
-//     } else if (5 > num || num <= 50) {
-//       num = "5.1 - 50.0 kg";
-//     } else if (50 > num || num <= 200) {
-//       num = "50.1 - 100 kg";
-//     } else if (200 > num || num <= 400) {
-//       num = "100.1 - 300.0 kg";
-//     } else if (400 > num || num <= 999) {
-//       num = "300.1 - 999.0 kg";
-//     }
-//   });
-//   weightAll.sort((a, b) => a.localeCompare(b));
-//   return app.freq(weightAll);
-// };
-
-function getSpawnChance(data, keyName1, keyName2) {
+function getSpawnChance(data, keyName) {
   const spwanChanceAll = [];
   const dataSort = data.sort((a, b) => (a.name).localeCompare(b.name));
-  dataSort.forEach(poke => {
-    console.log(poke[keyName2])
-    spwanChanceAll.push({x: poke[keyName1], y: +poke[keyName2]})});
+  dataSort.forEach(poke => spwanChanceAll.push(poke[keyName]));
   return spwanChanceAll;
 };
 
