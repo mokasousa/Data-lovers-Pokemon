@@ -28,4 +28,4 @@ Esse projeto foi desenvolvido como parte do currículo do [Bootcamp da Laborató
 
 Nesse projeto foram utilizados HTML, CSS, Vanilla Javascript e testes unitários com JEST.
 
-Criado e desenvolvido por Jéssica Nascimento e Mônica Sousa.
+Criado e desenvolvido por [Jéssica Nascimento](https://github.com/jpbnascimento) e Mônica Sousa.
